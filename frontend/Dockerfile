@@ -16,4 +16,4 @@ RUN yarn global add @vue/cli @vue/cli-init
 # yarn add axios vue-axios
 
 # vueサーバーの起動(vueアプリを作成した後、有効化する)。コンテナが起動してから30秒後くらいに起動。
-#CMD yarn serve
+CMD yarn serve

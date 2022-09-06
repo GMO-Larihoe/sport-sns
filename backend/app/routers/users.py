@@ -33,6 +33,20 @@ def create_user(
     db.refresh(db_user)
     return db_user
 
+@router.post("/test", response_model=schemas.users.User)
+def create_test_user(
+    user_create: schemas.users.CreateUser,
+    auth: int,
+    db: Session = Depends(dependencies.get_db)
+):
+    user_create.hashed_password = services.users.get_password_hash(user_create.hashed_password)
+    db_user = models.users.User(**user_create.dict())
+    db_user.auth = auth
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
 @router.get("/genres")
 def get_genres(
     current_user: models.users.User = Depends(dependencies.get_current_active_user),
@@ -43,3 +57,5 @@ def get_genres(
     db_genres = db.query(models.users_genres.UserGenre).filter(or_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.user_id == db_admin.id)).all()
     for db_genre in db_genres:
         db_food = db.query(models.foods).filter(models.foods.Food.genre_id == db_genre.id).first()
+        user_genre[db_genre.name] = db_food.toDict()
+    return user_genre

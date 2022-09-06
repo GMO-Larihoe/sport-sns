@@ -31,9 +31,7 @@ def save_icon_imag(
 ):
     bin_data = io.BytesIO(base64.b64decode(imag))
     re_imag = read_image(bin_data)
-    if old_path != './icon/defalut.jpg' or old_path != None:
-            os.remove(old_path)
-    path = './icon/' + str(uuid.uuid4()) + '.jpg' 
+    path = './food/' + str(uuid.uuid4()) + '.jpg' 
     cv2.imwrite(path, re_imag)
     return path
 

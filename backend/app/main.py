@@ -15,6 +15,7 @@ from routers import _auth_flow
 from routers import users
 from routers import genres
 from routers import foods
+from routers import authers
 
 app = FastAPI()
 
@@ -33,6 +34,7 @@ app.include_router(users.router)
 app.include_router(_auth_flow.router)
 app.include_router(genres.router)
 app.include_router(foods.router)
+app.include_router(authers.router)
 
 
 

@@ -1,9 +1,5 @@
-<script>
-    import TheButton from './TheButton.vue';
-    export default {
-        name: 'SideBar',
-        components: 'TheButton',
-    }
+<script setup>
+    import TheButton from './ranking/TheButton.vue';
   </script>
 
 <template>
@@ -17,7 +13,7 @@
     .side{
         position:absolute;
         background-color:#727272;
-        width:15%;
+        width:15vw;
         margin-left:0;
         padding:0;
         height:100vh;

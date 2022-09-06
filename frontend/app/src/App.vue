@@ -1,24 +1,15 @@
-<template>
-  <div>
-    <SideBar />
-    <router-view></router-view>
-  </div>
-  
-</template>
-
-<script>
-import SideBar from './components/SideBar';
-export default {
-  name: 'App',
-}
+<script setup>
+  import MainContent from './components/ranking/ThePage3.vue';
+  import SideBar from './components/SideBar.vue';
 </script>
 
+<template>
+  <SideBar />
+  <MainContent />
+</template>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  /* body{
+    background-color:#b3b1af;
+  } */
 </style>

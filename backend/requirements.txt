@@ -7,3 +7,6 @@ mysqlclient==2.1.0
 uvicorn==0.17.5
 python-jose==3.3.0
 passlib==1.7.4
+
+opencv-python==4.6.0.66
+python-multipart==0.0.5

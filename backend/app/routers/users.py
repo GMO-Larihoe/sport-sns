@@ -16,6 +16,7 @@ import models.foods
 import schemas.users
 import schemas.genres
 import services.users
+import services.img
 import dependencies
 
 @router.get("/me")
@@ -63,8 +64,9 @@ def get_genres(
         db_foods = db.query(models.foods.Food).filter(models.foods.Food.genre_id == db_genre.id).all()
         user_genre[db_genre.name] = list()
         for db_food in db_foods:
-            #user_genre[db_genre.name].append(1)
-            user_genre[db_genre.name].append(db_food.toDict())
+            food_dict = db_food.toDict()
+            food_dict['img'] = services.img.change_imag_to_base64(food_dict['img'])
+            user_genre[db_genre.name].append(food_dict)
         
     return user_genre
 
@@ -74,20 +76,22 @@ def create_genre(
     current_user: models.users.User = Depends(dependencies.get_current_active_user),
     db: Session = Depends(dependencies.get_db)
 ):
-    db_genre = db.query(models.users_genres.UserGenre).filter(and_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.name == create_genre.name)).first()
+    db_genre = db.query(models.users_genres.UserGenre).filter(and_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.name == create_genre.genre_name)).first()
     old_path = None
     img = services.img.save_icon_imag(create_genre.img, old_path)
     if db_genre:
         has_food = db.query(models.foods.Food).filter(and_(models.foods.Food.genre_id == db_genre.id, models.foods.Food.name == create_genre.food_name)).first()
         if has_food:
             raise HTTPException(status_code=409, detail="既に登録済み")
-        db_food = models.foods.Food(db_genre.genre_id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
+        db_food = models.foods.Food(db_genre.id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
     else:
         db_genre  = models.users_genres.UserGenre(current_user.id, create_genre.genre_name)
         db.add(db_genre)
         db.commit()
         db.refresh(db_genre)
-        db_food = models.foods.Food(db_genre.genre_id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
+        db_food = models.foods.Food(db_genre.id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
     db.add(db_food)
     db.commit()
     return{"succsess"}
+
+

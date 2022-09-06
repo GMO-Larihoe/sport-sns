@@ -15,3 +15,13 @@ class Food(CreateFood):
 
     class Config:
         orm_mode = True
+
+class Nutrition(BaseModel):
+    carbohydrate: int
+    lipid: int
+    protein: int
+    mineral: int
+    vitamin: int
+    
+    class Config:
+        orm_mode = True

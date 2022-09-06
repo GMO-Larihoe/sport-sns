@@ -20,6 +20,7 @@ import models.food_posts
 import schemas.users
 import schemas.genres
 import schemas.food_posts
+import schemas.foods
 import services.users
 import services.img
 import dependencies
@@ -136,3 +137,38 @@ def get_post(
         user_dict.pop('user_id')
         user_post.append(user_dict)
     return user_post
+
+@router.get("/nutritions", response_model=schemas.foods.Nutrition)
+def get_nutritions(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    nutritions: dict[str, int] = dict()
+    now = datetime.now(JST)
+    now_year = now.year
+    now_month = now.month
+    now_day = now.day
+    day_start_time = datetime(now_year, now_month, now_day, 0, 0, 0)
+    day_end_time = datetime(now_year, now_month, now_day, 23, 59, 59)
+    db_posts = db.query(models.food_posts.FoodPost).filter(and_(models.food_posts.FoodPost.date >= day_start_time, models.food_posts.FoodPost.date <= day_end_time, models.food_posts.FoodPost.user_id == current_user.id)).all()
+    carbohydrates = 0
+    lipids = 0
+    proteins = 0
+    minerals = 0
+    vitamins = 0
+    for db_post in db_posts:
+        db_food = db.query(models.foods.Food).filter(models.foods.Food.id == db_post.food_id).first()
+        carbohydrates = db_food.carbohydrate + carbohydrates
+        lipids = db_food.lipid + lipids
+        proteins = db_food.protein + proteins
+        minerals = db_food.mineral + minerals
+        vitamins = db_food.vitamin + vitamins
+    nutritions['carbohydrate'] = carbohydrates
+    nutritions['lipid'] = lipids
+    nutritions['protein'] = proteins
+    nutritions['mineral'] = minerals
+    nutritions['vitamin'] = vitamins
+    return nutritions
+
+
+    

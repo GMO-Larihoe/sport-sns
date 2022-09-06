@@ -13,6 +13,7 @@ from models.password_reset_queue import *
 from models.users_genres import *
 from models.foods import *
 from models.food_posts import *
+from models.scores import *
 
 
 # this is the Alembic Config object, which provides

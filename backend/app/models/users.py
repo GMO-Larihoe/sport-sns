@@ -10,6 +10,7 @@ class User(Base):
     name = Column(String(64), nullable=False, index=True)
     email = Column(String(64), nullable=False, unique=True, index=True)
     hashed_password = Column(String(128), nullable=False)
+    auth = Column(SmallInteger, nullable=False, default=1)
     status = Column(SmallInteger, nullable=False, index=True)
     
     def __init__(self, name: str, email: str, hashed_password: str):

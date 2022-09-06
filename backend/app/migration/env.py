@@ -10,6 +10,8 @@ from database import Base, get_db_url
 from models.users import *
 from models.users_provisional import *
 from models.password_reset_queue import *
+from models.users_genres import *
+from models.foods import *
 
 
 # this is the Alembic Config object, which provides

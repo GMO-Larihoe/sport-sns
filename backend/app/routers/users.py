@@ -1,5 +1,6 @@
 from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, or_
+from typing import List, Any
 
 router = APIRouter(
     prefix="/users",
@@ -8,6 +9,8 @@ router = APIRouter(
 )
 
 import models.users
+import models.users_genres
+import models.foods
 import schemas.users
 import services.users
 import dependencies
@@ -29,3 +32,14 @@ def create_user(
     db.commit()
     db.refresh(db_user)
     return db_user
+
+@router.get("/genres")
+def get_genres(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    user_genre: dict[str, Any] = dict()
+    db_admin = db.query(models.users.User).filter(models.users.User.auth == 0).first()
+    db_genres = db.query(models.users_genres.UserGenre).filter(or_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.user_id == db_admin.id)).all()
+    for db_genre in db_genres:
+        db_food = db.query(models.foods).filter(models.foods.Food.genre_id == db_genre.id).first()

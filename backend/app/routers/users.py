@@ -2,7 +2,7 @@ from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from typing import List, Any
 
 router = APIRouter(
@@ -17,6 +17,7 @@ import models.users
 import models.users_genres
 import models.foods
 import models.food_posts
+import models.scores
 import schemas.users
 import schemas.genres
 import schemas.food_posts
@@ -107,6 +108,14 @@ def create_post(
     db: Session = Depends(dependencies.get_db)
 ):
     db_post = models.food_posts.FoodPost(current_user.id, create_post.genre_id, create_post.food_id, datetime.now(JST))
+    now = date.today()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date == now)).first()
+    db_food = db.query(models.foods.Food).filter(models.foods.Food.id == create_post.food_id).first()
+    ave = (db_food.carbohydrate + db_food.lipid + db_food.protein + db_food.mineral +db_food.vitamin)/5
+    if db_score:
+        db_score = models.scores.Score(current_user.id, ave, now)
+    else:
+        db_score.score = (db_score.score + ave)/2
     db.add(db_post)
     db.commit()
     return {"成功！"}
@@ -170,5 +179,26 @@ def get_nutritions(
     nutritions['vitamin'] = vitamins
     return nutritions
 
+@router.get("/score", response_model=schemas.users.UserScore)
+def get_score(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    score: dict[str, Any] = dict()
+    now = date.today()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date == now)).first()
+    score['name'] = current_user.name
+    score['score'] = db_score.score
+    return score
 
-    
+@router.get("/scores")
+def get_scores(
+    start: str,
+    end: str,
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    start_day = datetime.strptime(start, '%Y-%m-%d')
+    end_day = datetime.strptime(end, '%Y-%m-%d')
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date >= start_day.date(), models.scores.Score.date <= end_day.date())).all()
+    return db_score

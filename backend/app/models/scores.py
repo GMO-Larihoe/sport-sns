@@ -12,7 +12,7 @@ class Score(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey(models.users.User.id), nullable=False, index=True)
     score = Column(Integer, nullable=False)
-    date = Column(Date, nullable=False, server_default=current_date)
+    date = Column(Date, nullable=False)
 
     
     def __init__(self, user_id: int, score: int, date: date):

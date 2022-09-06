@@ -15,7 +15,7 @@ import schemas.foods
 import services.img
 import dependencies
 
-@router.post("", response_model=schemas.foods.Food)
+@router.post("")
 def create_food(
     create_food: schemas.foods.CreateFood,
     current_user: models.users.User = Depends(dependencies.get_current_active_user),
@@ -29,4 +29,5 @@ def create_food(
     db.add(db_food)
     db.commit()
     db.refresh(db_food)
-    return db_food
+    
+    return {"成功！"}

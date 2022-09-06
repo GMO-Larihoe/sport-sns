@@ -21,7 +21,6 @@ def read_image(bin_data, size=(256, 256)):
     """
     file_bytes = np.asarray(bytearray(bin_data.read()), dtype=np.uint8)
     img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, size)
     return img
 

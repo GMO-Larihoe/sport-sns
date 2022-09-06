@@ -13,6 +13,7 @@ from error import ConsistencyError, ResourceNotFoundError, UnauthorizedError
 from routers import auth
 from routers import _auth_flow
 from routers import users
+from routers import genres
 
 app = FastAPI()
 
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(_auth_flow.router)
+app.include_router(genres.router)
 
 
 

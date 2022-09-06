@@ -1,5 +1,7 @@
 from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
-from sqlalchemy.orm import Session, or_
+from sqlalchemy.orm import Session
+from sqlalchemy import or_
+
 from typing import List, Any
 
 router = APIRouter(

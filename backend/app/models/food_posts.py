@@ -18,7 +18,7 @@ class FoodPost(Base):
     date = Column(Timestamp, nullable=False, server_default=current_timestamp())
 
     
-    def __init__(self,user_id: int, genre_id: int, food_id: int, date: datetime):
+    def __init__(self, user_id: int, genre_id: int, food_id: int, date: datetime):
         self.user_id = user_id
         self.genre_id = genre_id
         self.food_id = food_id

@@ -2,6 +2,7 @@ from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
 
+from datetime import datetime, timedelta, timezone
 from typing import List, Any
 
 router = APIRouter(
@@ -10,11 +11,15 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+JST = timezone(timedelta(hours=+9), 'JST')
+
 import models.users
 import models.users_genres
 import models.foods
+import models.food_posts
 import schemas.users
 import schemas.genres
+import schemas.food_posts
 import services.users
 import services.img
 import dependencies
@@ -94,4 +99,40 @@ def create_genre(
     db.commit()
     return{"succsess"}
 
+@router.post("/food_post")
+def create_post(
+    create_post: schemas.food_posts.CreatePost,
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    db_post = models.food_posts.FoodPost(current_user.id, create_post.genre_id, create_post.food_id, datetime.now(JST))
+    db.add(db_post)
+    db.commit()
+    return {"成功！"}
 
+@router.get("/food_post")
+def get_post(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    
+    user_post: list[dict[str, Any]] = []
+    now = datetime.now(JST)
+    now_year = now.year
+    now_month = now.month
+    now_day = now.day
+    day_start_time = datetime(now_year, now_month, now_day, 0, 0, 0)
+    day_end_time = datetime(now_year, now_month, now_day, 23, 59, 59)
+    db_posts = db.query(models.food_posts.FoodPost).filter(and_(models.food_posts.FoodPost.date >= day_start_time, models.food_posts.FoodPost.date <= day_end_time, models.food_posts.FoodPost.user_id == current_user.id)).all()
+    for db_post in db_posts:
+        user_dict: dict[str, Any] = dict()
+        user_dict = db_post.toDict()
+        db_genre = db.query(models.users_genres.UserGenre).filter(models.users_genres.UserGenre.id == db_post.genre_id).first()
+        db_food = db.query(models.foods.Food).filter(models.foods.Food.id == db_post.food_id).first()
+        food_dict = db_food.toDict()
+        food_dict['img'] = services.img.change_imag_to_base64(food_dict['img'])
+        user_dict.update(db_genre.toDict())
+        user_dict.update(food_dict)
+        user_dict.pop('user_id')
+        user_post.append(user_dict)
+    return user_post

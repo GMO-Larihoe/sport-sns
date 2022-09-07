@@ -1,9 +1,11 @@
+from tkinter import Menu
 from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_, desc
 
 from datetime import datetime, timedelta, timezone, date
 from typing import List, Any
+import random
 
 router = APIRouter(
     prefix="/users",
@@ -222,3 +224,68 @@ def get_rank(
     return rank
 
 
+@router.get("reco_menu")
+def get_reco_menu(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    now = datetime.now(JST)
+    now_year = now.year
+    now_month = now.month
+    now_day = now.day
+    day_start_time = datetime(now_year, now_month, now_day, 0, 0, 0)
+    day_end_time = datetime(now_year, now_month, now_day, 23, 59, 59)
+    db_posts = db.query(models.food_posts.FoodPost).filter(and_(models.food_posts.FoodPost.date >= day_start_time, models.food_posts.FoodPost.date <= day_end_time, models.food_posts.FoodPost.user_id == current_user.id)).all()
+    carbohydrates = 0
+    lipids = 0
+    proteins = 0
+    minerals = 0
+    vitamins = 0
+    for db_post in db_posts:
+        db_food = db.query(models.foods.Food).filter(models.foods.Food.id == db_post.food_id).first()
+        carbohydrates = db_food.carbohydrate + carbohydrates
+        lipids = db_food.lipid + lipids
+        proteins = db_food.protein + proteins
+        minerals = db_food.mineral + minerals
+        vitamins = db_food.vitamin + vitamins
+    num = min(carbohydrates, lipids, proteins, minerals, vitamins)
+    str = ""
+    if num == carbohydrates:
+        str = "carbohydrate"
+    elif num == lipids:
+        str = "lipid"
+    elif num == proteins:
+        str = "protein"
+    elif num == minerals:
+        str = "mineral"
+    else:
+        str = "vitamin"
+
+    now = date.today()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.user_id == current_user.id, models.scores.Score.date == now)).first()
+    
+    count = 0
+    user_genre: List[dict[str, Any]] = []
+    db_admin = db.query(models.users.User).filter(models.users.User.auth == 0).first()
+    db_genres = db.query(models.users_genres.UserGenre).filter(or_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.user_id == db_admin.id)).all()
+    db_genres = random.sample(db_genres, len(db_genres))
+    for db_genre in db_genres:
+        db_foods = db.query(models.foods.Food).filter(models.foods.Food.genre_id == db_genre.id).all()
+        db_foods = random.sample(db_foods, len(db_foods))
+        for db_food in db_foods:
+            food_dict = db_food.toDict()
+            if food_dict[str] >= db_score.score:
+                count = count + 1
+                food_dict['img'] = services.img.change_imag_to_base64(food_dict['img'])
+                food_dict['genre_name'] = db_genre.name
+                user_genre.append(food_dict)
+                if count > 2:
+                    break
+        else:
+            continue
+        break
+    
+    return user_genre
+
+    
+    

@@ -1,5 +1,5 @@
 <script setup>
-    import TheButton from './ranking/TheButton.vue';
+    import TheButton from './TheButton.vue';
   </script>
 
 <template>
@@ -13,7 +13,7 @@
     .side{
         position:absolute;
         background-color:#727272;
-        width:15vw;
+        width:15%;
         margin-left:0;
         padding:0;
         height:100vh;

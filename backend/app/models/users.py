@@ -12,6 +12,7 @@ class User(Base):
     hashed_password = Column(String(128), nullable=False)
     auth = Column(SmallInteger, nullable=False, default=1)
     status = Column(SmallInteger, nullable=False, index=True)
+    #auth 0 → admin
     
     def __init__(self, name: str, email: str, hashed_password: str):
         self.name = name

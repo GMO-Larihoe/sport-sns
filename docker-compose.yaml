@@ -45,6 +45,7 @@ services:
     volumes:
       - ./db/data:/var/lib/mysql
       - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/sql:/tmp
     ports:
       - 3306:3306
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci

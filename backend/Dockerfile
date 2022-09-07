@@ -5,6 +5,9 @@ WORKDIR /app
 COPY ./requirements.txt .
 COPY ./app .
 
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y libgl1-mesa-dev
 RUN pip install --no-cache-dir --trusted-host pypi.python.org -r /app/requirements.txt
 
 EXPOSE 8000

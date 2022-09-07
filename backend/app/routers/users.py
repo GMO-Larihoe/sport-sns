@@ -65,6 +65,16 @@ def get_genres(
     current_user: models.users.User = Depends(dependencies.get_current_active_user),
     db: Session = Depends(dependencies.get_db)
 ):
+    db_admin = db.query(models.users.User).filter(models.users.User.auth == 0).first()
+    db_genres = db.query(models.users_genres.UserGenre).filter(or_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.user_id == db_admin.id)).all()
+    return db_genres
+
+
+@router.get("/genres_food")
+def get_genres_food(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
     user_genre: dict[str, List[dict[str, Any]]] = dict()
     db_admin = db.query(models.users.User).filter(models.users.User.auth == 0).first()
     db_genres = db.query(models.users_genres.UserGenre).filter(or_(models.users_genres.UserGenre.user_id == current_user.id, models.users_genres.UserGenre.user_id == db_admin.id)).all()

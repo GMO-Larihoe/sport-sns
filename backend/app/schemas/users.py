@@ -28,3 +28,9 @@ class User(UserBase):
 class CreateUser(UserBase):
     hashed_password: str
 
+class UserScore(BaseModel):
+    name: str
+    score: int
+    
+    class Config:
+        orm_mode = True

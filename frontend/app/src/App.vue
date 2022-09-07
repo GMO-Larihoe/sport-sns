@@ -1,7 +1,11 @@
 <template>
+<router-view></router-view>
   <SideBar />
-  <MainContent />
+  
 </template>
+<script setup>
+  import SideBar from './components/SideBar.vue';
+</script>
 
 <script>
   import MainContent from './components/ranking/ThePage3.vue';

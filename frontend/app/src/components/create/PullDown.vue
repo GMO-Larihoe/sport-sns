@@ -39,7 +39,6 @@
 		<div id="G24"><input type="number" id="mineraru" size="10" min="0" max="2000"></div>
 		<div id="G25"><input type="number" id="bitamin" size="10" min="0" max="2000"></div>
 	</div>
-		<a class="btn btn--yellow btn--cubic" v-on:click="add">追加</a>
 		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert">投稿</a>
 </div>
 </template>
@@ -75,42 +74,34 @@
 				console.log(1);
 				let url = process.env.VUE_APP_API_DEV + "/users/genres";
 				const API_TOKEN = sessionStorage.getItem('access_token');
-				const response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
-				
-				console.log(response.data['日本食']);
-				this.genres=response;
+				let response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data[0].name);
+				this.genres=response.data;
+
+				url = process.env.VUE_APP_API_DEV + "/users/genres_food";
+				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data['日本食'][0].name);
+				this.allgenres=response;
 			},
-			add: async function(){
-				let url = process.env.VUE_APP_API_DEV + "/users/genres";
-				const API_TOKEN = sessionStorage.getItem('access_token');
-				const response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
-				console.log(response[0]);
+			insert: async function(){
+				// let url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				// const API_TOKEN = sessionStorage.getItem('access_token');
+				let x=0;
+				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
+					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
+						x=i;
+					}
+				}
+				let genres = {
+					"genre_id" : this.allgenres.data[this.Gselected][x].genre_id,
+					"food_id" : this.allgenres.data[this.Gselected][x].id,
+				}
+				// let response = await axios.post(url, { headers: { Authorization: "Bearer " + API_TOKEN } },genres);
+				console.log(genres.food_id);
 			},
 			output: function(e){
 				console.log(e.target.value);
-				switch(this.Gselected){
-					case "和食":
-						this.foods=[
-						{ id: 1, name: '煮魚' },
-						{ id: 2, name: 'おしるこ' },
-						{ id: 3, name: 'おにぎり' }
-						];
-					return;
-					case "洋食":
-						this.foods=[
-						{ id: 1, name: 'ハンバーグ' },
-						{ id: 2, name: 'ステーキ' },
-						{ id: 3, name: 'パスタ' }
-						]
-					return;
-					case "中華":
-						this.foods=[
-						{ id: 1, name: 'エビチリ' },
-						{ id: 2, name: '麻婆豆腐' },
-						{ id: 3, name: '杏仁豆腐' }
-						]
-					return;
-				}
+				this.foods=this.allgenres.data[this.Gselected];
 			}
 
 		}

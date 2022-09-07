@@ -1,6 +1,6 @@
 from fastapi import Response, status, APIRouter, Depends, Form, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, desc
 
 from datetime import datetime, timedelta, timezone, date
 from typing import List, Any
@@ -113,9 +113,11 @@ def create_post(
     db_food = db.query(models.foods.Food).filter(models.foods.Food.id == create_post.food_id).first()
     ave = (db_food.carbohydrate + db_food.lipid + db_food.protein + db_food.mineral +db_food.vitamin)/5
     if db_score:
-        db_score = models.scores.Score(current_user.id, ave, now)
-    else:
         db_score.score = (db_score.score + ave)/2
+    else:
+        db_score = models.scores.Score(current_user.id, ave, now)
+        db.add(db_score)
+        db.commit()
     db.add(db_post)
     db.commit()
     return {"成功！"}
@@ -186,7 +188,7 @@ def get_score(
 ):
     score: dict[str, Any] = dict()
     now = date.today()
-    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date == now)).first()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.user_id == current_user.id, models.scores.Score.date == now)).first()
     score['name'] = current_user.name
     score['score'] = db_score.score
     return score
@@ -200,5 +202,23 @@ def get_scores(
 ):
     start_day = datetime.strptime(start, '%Y-%m-%d')
     end_day = datetime.strptime(end, '%Y-%m-%d')
-    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date >= start_day.date(), models.scores.Score.date <= end_day.date())).all()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.user_id == current_user.id, models.scores.Score.date >= start_day.date(), models.scores.Score.date <= end_day.date())).all()
     return db_score
+
+@router.get("/rank")
+def get_rank(
+    current_user: models.users.User = Depends(dependencies.get_current_active_user),
+    db: Session = Depends(dependencies.get_db)
+):
+    rank: list[dict[str, Any]] = []
+    now = date.today()
+    db_scores = db.query(models.scores.Score).filter(models.scores.Score.date == now).order_by(desc(models.scores.Score.score)).all()
+    for db_score in db_scores:
+        db_user = db.query(models.users.User).filter(models.users.User.id == db_score.user_id).first()
+        user: dict[str, Any] = dict()
+        user['name'] = db_user.name
+        user['score'] = db_score.score
+        rank.append(user)
+    return rank
+
+

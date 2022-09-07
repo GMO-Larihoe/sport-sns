@@ -1,17 +1,20 @@
-<script setup>
-    import TheButton from './TheButton.vue';
-  </script>
 <template>
    
 <div class="side">
     <TheButton />
 </div>
 </template>
+
+<script>
+  import TheButton from './ranking/TheButton.vue';
+</script>
+
+
 <style scoped>
     .side{
         position:absolute;
         background-color:#727272;
-        width:15%;
+        width:15vw;
         margin-left:0;
         padding:0;
         height:100vh;

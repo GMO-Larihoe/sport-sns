@@ -17,7 +17,7 @@
   
       <!-- 新規登録 -->
       <div class="m-1">
-          <a href="/provisional_signup">新規登録</a>
+          <a href="/signup">新規登録</a>
       </div>
     </div>
   </template>

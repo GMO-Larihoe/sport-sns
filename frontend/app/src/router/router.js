@@ -4,6 +4,7 @@ import ThePage2 from '../components/graph/ThePage2';
 import ThePage1 from '../components/create/ThePage1.vue';
 import UserPage from '../layouts/UserPage.vue'
 import LoginPage from '../LoginPage.vue'
+import SignUp from '../SignUp.vue'
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
   {
     path: '/login',
     component: LoginPage,
+  },
+  {
+    path: '/signup',
+    component: SignUp,
   },
   {
     path: '/:catchAll(.*)',

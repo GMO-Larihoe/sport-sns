@@ -1,24 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ThePage3 from '../components/ranking/ThePage3';
 import ThePage2 from '../components/graph/ThePage2';
-
-
 import ThePage1 from '../components/create/ThePage1.vue';
+import UserPage from '../layouts/UserPage.vue'
+import LoginPage from '../LoginPage.vue'
 
 const routes = [
   {
-    path: '/',
-    component: ThePage1,
-},
-
-  {
-    path : '/pae2',
-    component: ThePage2,
+    path: '/home',
+    component: UserPage,
+    children: [
+      {
+        path: 'page1',
+        component: ThePage1
+      },
+      {
+        // /user/:id/posts がマッチした時に
+        // UserPosts は User の <router-view> 内部で描画されます
+        path: 'page2',
+        component: ThePage2
+      },
+      {
+        // /user/:id/posts がマッチした時に
+        // UserPosts は User の <router-view> 内部で描画されます
+        path: 'page3',
+        component: ThePage3
+      }
+    ]
   },
   {
-    path : '/pae3',
-    component: ThePage3,
+    path: '/login',
+    component: LoginPage,
   },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/home'
+  }
 ]
 
 

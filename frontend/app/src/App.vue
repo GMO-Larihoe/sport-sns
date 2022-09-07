@@ -5,8 +5,9 @@
 </div>
 </template>
 
+
 <script setup>
-  // import MainContent from './components/ranking/ThePage3.vue';
+  import MainContent from './components/ranking/ThePage3.vue';
   import SideBar from './components/SideBar.vue';
 </script>
 

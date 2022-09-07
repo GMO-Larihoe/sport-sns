@@ -1,9 +1,6 @@
 <template>
   <div>
-<button id="add">食品追加</button>
 <div class="noweat">
-  <p id="jtext">ジャンル</p>
-  <p id="etext">食べ物</p>
   <PullDown />
 </div>
 <p id="ttext">今日の食事</p>
@@ -56,11 +53,6 @@ body{
   margin-top:45vh;
   margin-left:20vw;
 } 
-#add{
-  position:absolute;
-  margin-top:3vh;
-  right:10vw;
-}
 .noweat{
   position:absolute;
   background-color: chocolate;
@@ -68,18 +60,6 @@ body{
   height:30vh;
   margin-top:7vh;
   margin-left:20vw;
-}
-#jtext{
-  position:absolute;
-  font-size:120%;
-  margin-top:5vh;
-  margin-left:3vw;
-}
-#etext{
-  position:absolute;
-  font-size:120%;
-  margin-top:18vh;
-  margin-left:3vw;
 }
 #ttext{
   position:absolute;

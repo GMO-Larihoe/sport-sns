@@ -1,14 +1,19 @@
+<template>
+  <div class="allpage">
+  <SideBar />
+  <router-view></router-view>
+</div>
+</template>
+
 <script setup>
-  import MainContent from './components/ranking/ThePage3.vue';
+  // import MainContent from './components/ranking/ThePage3.vue';
   import SideBar from './components/SideBar.vue';
 </script>
 
-<template>
-  <SideBar />
-  <MainContent />
-</template>
-
 <style>
+  .allpage{
+    position: absolute;
+  }
   /* body{
     background-color:#b3b1af;
   } */

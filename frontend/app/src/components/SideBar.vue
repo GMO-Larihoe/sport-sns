@@ -1,28 +1,26 @@
+<template>
+
+    <div class="side">
+    <TheButton />
+    </div>
+</template>
+
 <script setup>
     import TheButton from './ranking/TheButton.vue';
   </script>
 
-<template>
-   
-<div class="side">
-    <TheButton />
-</div>
-</template>
-
 <style scoped>
     .side{
         position:absolute;
-        background-color:#727272;
+        background-color:#ff9f04d5;
         width:15vw;
         margin-left:0;
         padding:0;
         height:100vh;
         /*marginss-top:100px;*/
         text-align:center;
+        border-right:solid 0.1vw rgb(24, 19, 19);
         
-    }
-     /* #meaple{ 
-        position: absolute;
-        text-align:center;
-    } */
+    }    
+
 </style>

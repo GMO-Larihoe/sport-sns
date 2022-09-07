@@ -226,7 +226,7 @@ def get_rank(
     now = date.today()
     db_scores = db.query(models.scores.Score).filter(models.scores.Score.date == now).order_by(desc(models.scores.Score.score)).all()
     for db_score in db_scores:
-        db_user = db.query(models.users.User).filter(models.users.User.id == db_score.user_id).first()
+        db_user = db.query(models.users.User).filter(and_(models.users.User.id == db_score.user_id, models.users.User.auth == 1)).first()
         user: dict[str, Any] = dict()
         user['name'] = db_user.name
         user['score'] = db_score.score

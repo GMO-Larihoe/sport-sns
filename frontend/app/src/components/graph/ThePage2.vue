@@ -13,7 +13,7 @@
                 スコア
             </div>
             <div id="scorecount">
-                <!-- ここにスコアを入れる -->
+                {{score}}
             </div>
         </div>
         <div class="eiyou">
@@ -72,6 +72,7 @@
 <script>
 import RadarChartEgg from './RadarChartEgg.vue'
 import ChartEgg from './ChartEgg.vue'
+import axios from 'axios';
 
 export default {
     data() {
@@ -88,13 +89,31 @@ export default {
             kabusokun: [
                     {name:"過剰",eiyou:"たんぱく"},
                     {name:"不足",eiyou:"脂質"},
-            ]
+            ],
+            score: 0
         };
+    },
+    mounted(){
+        this.getscore()
     },
     components: {
         RadarChartEgg,
         ChartEgg
-},
+    },
+    methods:{
+        getscore: async function(){
+            try {
+                let url = process.env.VUE_APP_API_DEV + '/users/score';
+                const API_TOKEN = sessionStorage.getItem('access_token');
+                const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+                console.log(res.data["score"]);
+                this.score = res.data["score"];
+            } catch (error) {
+                this.score = 0;
+            }
+            
+        }
+    }
 }
 
 </script>

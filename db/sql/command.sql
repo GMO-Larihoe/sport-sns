@@ -1,3 +1,4 @@
+charset utf8mb4;
 insert into users_genres values (1, 1, '日本食');
 insert into users_genres values (2, 1, '洋食');
 insert into users_genres values (3, 1, '中華');
@@ -14,4 +15,4 @@ insert into foods values (9, 3, '麻婆豆腐', './food_img/mabodoufu.jpg', 94, 
 insert into foods values (10, 3, '炒飯', './food_img/chahan.jpg', 75, 9, 24, 64, 70);
 insert into foods values (11, 3, '肉まん', './food_img/nikuman.jpg', 44, 12, 84, 12, 36);
 
-show variables like '%char%'
+show variables like '%char%';

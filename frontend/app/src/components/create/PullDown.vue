@@ -39,8 +39,8 @@
 		<div id="G24"><input type="number" id="mineraru" size="10" min="0" max="2000"></div>
 		<div id="G25"><input type="number" id="bitamin" size="10" min="0" max="2000"></div>
 	</div>
-		<a class="btn btn--yellow btn--cubic">追加</a>
-		<a class="btn btn--yellow2 btn--cubic">投稿</a>
+		<a class="btn btn--yellow btn--cubic" v-on:click="add">追加</a>
+		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert">投稿</a>
 </div>
 </template>
 <script>
@@ -51,6 +51,7 @@
 		data(){
 			return {
 				Gselected: '',
+				allgenres:[],
 				genres: [
 						{ id: 1, name: '和食' },
 						{ id: 2, name: '洋食' },
@@ -72,14 +73,18 @@
 		methods:{
 			getData: async function(){
 				console.log(1);
-				const response = await axios.get(process.env.VUE_APP_API_DEV + "/authers");
-				console.log(response.data[0]);
-				//const response = await axios.post(process.env.VUE_APP_API_DEV + "/users/genres",JSONが入っている変数);
-				//parms
+				let url = process.env.VUE_APP_API_DEV + "/users/genres";
+				const API_TOKEN = sessionStorage.getItem('access_token');
+				const response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				
+				console.log(response.data['日本食']);
+				this.genres=response;
 			},
-			postData: async function(){
-				const response = await axios.post(process.env.VUE_APP_API_DEV + "/users/genres",this.genres[0].name);
-				console.log(response);
+			add: async function(){
+				let url = process.env.VUE_APP_API_DEV + "/users/genres";
+				const API_TOKEN = sessionStorage.getItem('access_token');
+				const response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response[0]);
 			},
 			output: function(e){
 				console.log(e.target.value);

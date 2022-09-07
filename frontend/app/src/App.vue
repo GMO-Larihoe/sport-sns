@@ -1,13 +1,24 @@
 <template>
-  <div class="allpage">
-  <SideBar />
-  <router-view></router-view>
-</div>
+  <div>
+    <router-view />
+  </div>
 </template>
 
 
-<script setup>
-  import SideBar from './components/SideBar.vue';
+<script>
+
+  export default {
+    data () {
+      return {
+        isLogin: false
+      }
+    },
+    methods : {
+      changeLogin: function(val) {
+        this.isLogin = val
+      }
+    }
+  }
 </script>
 
 <style>

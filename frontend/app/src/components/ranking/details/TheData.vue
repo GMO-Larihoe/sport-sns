@@ -1,4 +1,5 @@
 <template>
+     <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
     <div>
         <div class="rankinglist">
             <div v-for="(dataindex,index) in dataList" v-bind:key="index">
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+    import axios from 'axios'; 
     export default{
         data(){
             return {
@@ -62,23 +64,37 @@
                 ],
             }
         },
+        mounted(){
+            this.getRank();
+        },
+        methods: {
+            getRank: async function(){
+                let url = process.env.VUE_APP_API_DEV + '/users/rank';
+                const API_TOKEN = sessionStorage.getItem('access_token');
+                const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+            }
+        }
     }
 </script>
 
 <style scoped>
     .rankinglist{ 
+        font-family: "Kokoro";
     position: absolute;
      margin-left:7vw; 
      margin-top:0vh;
     /* padding-left:0; */
 }
     .namelist{
+        
+        font-family: "Kokoro";
         position:absolute;
         margin-left:25vw;
         margin-top:0vh;
     }
  
     .scorelist{ 
+        font-family: "Kokoro";
     position: absolute;
      margin-left:45vw; 
      margin-top:0vh;

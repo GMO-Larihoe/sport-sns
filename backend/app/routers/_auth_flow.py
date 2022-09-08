@@ -11,6 +11,8 @@ from libs.mail import registration_mail_body, send_mail, password_reset_mail_bod
 from models.password_reset_queue import PasswordResetQueue
 from models.users import User
 import models.users
+import schemas.users
+import services.users
 from models.users_provisional import ProvisionalUser
 
 from pydantic import EmailStr
@@ -26,6 +28,7 @@ from starlette.status import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT
 
 
 router = APIRouter(
+    prefix="/api",
     tags=["auth"],
     dependencies=[],
     responses={404: {"description": "Not found"}},
@@ -36,11 +39,11 @@ JST = timezone(timedelta(hours=+9), 'JST')
 @router.post("/provisional_signup")
 async def provisional_signup(
     req: Request,
-    email: str = Form(...),
-    db=Depends(dependencies.get_db),
+    create_usr: schemas.users.CreateUser,
+    db: Session = Depends(dependencies.get_db),
 ):
     # Check if given email address is already registered as `User`
-    user = db.query(models.users.User).filter_by(email=email).first()
+    user = db.query(models.users.User).filter(create_usr.email == models.users.User.email).first()
     if user:
         raise HTTPException(
             HTTP_409_CONFLICT,
@@ -50,13 +53,16 @@ async def provisional_signup(
     (token, expired_at) = generate_provisional_token()
 
     # Check if given email address is already registered as `ProvisionalUser`
-    user = db.query(ProvisionalUser).filter_by(email=email).first()
+    user = db.query(ProvisionalUser).filter(create_usr.email == ProvisionalUser.email).first()
     if user:
         user.token = token
         user.expired_at = expired_at
     else:
+        password = services.users.get_password_hash(create_usr.hashed_password)
         user = ProvisionalUser(
-            email=email,
+            name=create_usr.name,
+            email=create_usr.email,
+            hashed_password=password,
             token=token,
             expired_at=expired_at,
         )
@@ -65,29 +71,38 @@ async def provisional_signup(
     db.commit()
 
     registration_url = f"""
-    {req.base_url.scheme}://{req.base_url.hostname}/signup/{token}
+    {req.base_url.scheme}://{req.base_url.hostname}:8080/mail?token={token}
     """
 
     body = registration_mail_body(
-        mail_to=email,
+        mail_to=create_usr.email,
         registration_url=registration_url,
         valid_until=expired_at,
     )
 
     print(body)
-    await send_mail(email, "メールアドレスの仮登録を受け付けました", body)
+    await send_mail(create_usr.email, "メールアドレスの仮登録を受け付けました", body)
 
 
 # Which is better? path or query ?
-@router.post("/provisional_signup/{token}")
-async def provisional_signup_email_verify(token: str, db=Depends(dependencies.get_db)):
-    user = db.query(ProvisionalUser).filter_by(token=token).first()
-    if user and user.expired_at > datetime.now(JST):
+@router.post("/auth_mail")
+async def provisional_signup_email_verify(
+    token: str, 
+    db: Session = Depends(dependencies.get_db)
+    ):
+    user = db.query(ProvisionalUser).filter(ProvisionalUser.token==token).first()
+    now = datetime.now(JST)
+    time = datetime(now.year, now.month, now.day, now.hour, now.minute, now.second)
+    if user and user.expired_at > time:
         # Prevent second attempt
         user.expired_at = datetime.now(JST)
+        db_user = models.users.User(user.name, user.email,user.hashed_password)
+        db.add(db_user)
+        provisional_user = db.query(ProvisionalUser).filter(ProvisionalUser.token==token).first()
+        db.delete(provisional_user)
         db.commit()
-        return user.email
-    elif user and user.expired_at < datetime.now(JST):
+        return {"登録完了"}
+    elif user and user.expired_at < time:
         raise HTTPException(
             HTTP_400_BAD_REQUEST,
             "URL expired",

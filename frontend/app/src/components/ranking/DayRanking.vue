@@ -5,6 +5,7 @@
     </div>
     <div class="wordframe">
         <TheWord />
+       
     </div>
 
 

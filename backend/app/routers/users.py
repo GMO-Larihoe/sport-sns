@@ -111,7 +111,8 @@ def create_genre(
         db_food = models.foods.Food(db_genre.id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
     db.add(db_food)
     db.commit()
-    return{"succsess"}
+    
+    return {"成功！！！！"}
 
 @router.post("/food_post")
 def create_post(
@@ -154,8 +155,10 @@ def get_post(
         db_genre = db.query(models.users_genres.UserGenre).filter(models.users_genres.UserGenre.id == db_post.genre_id).first()
         db_food = db.query(models.foods.Food).filter(models.foods.Food.id == db_post.food_id).first()
         food_dict = db_food.toDict()
+        genre_dict = db_genre.toDict()
+        genre_dict['genre_name'] = db_genre.name
         food_dict['img'] = services.img.change_imag_to_base64(food_dict['img'])
-        user_dict.update(db_genre.toDict())
+        user_dict.update(genre_dict)
         user_dict.update(food_dict)
         user_dict.pop('user_id')
         user_post.append(user_dict)

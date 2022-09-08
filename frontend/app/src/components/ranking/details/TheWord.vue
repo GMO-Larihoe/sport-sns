@@ -1,6 +1,7 @@
 <template>
+     <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
     <div class="number">
-        順位
+        ランク
     </div>
     
     <div class="user">
@@ -11,10 +12,12 @@
         スコア
     </div>
     
-    </template>
+ </template>
         
      <style scoped>
+
     .number{ 
+        font-family: "Kokoro";
         position:absolute;
          margin-left:6vw; 
          font-size:20px;
@@ -22,12 +25,14 @@
     }
     
     .user{
+        font-family: "Kokoro";
         position:absolute;
         margin-left:24vw;
         font-size:20px;
     }
     
     .score{
+        font-family: "Kokoro";
         position:absolute;
         margin-left:44vw;
         font-size:20px;

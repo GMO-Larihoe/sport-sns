@@ -29,18 +29,18 @@ def registration_mail_body(
         f"""
     こんにちは、{mail_to} さん
 
-    coresty に仮登録いただきありがとうございます。
+    meaple に仮登録いただきありがとうございます。
 
 
     ユーザー登録手続きはまだ完了しておりません。
-    以下のURLにアクセスして、パスワードの設定を行ってください。
+    以下のURLにアクセスして、本人のメールアドレスである事を確認します。
     {registration_url}
 
     本URLは {valid_until.strftime("%Y-%m-%d %H:%M:%S")} まで有効です。
     有効期限経過後は再度メールアドレス登録から行ってください。
 
 
-    coresty 運営チーム
+    meaple 運営チーム
 
     """
     )

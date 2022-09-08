@@ -1,9 +1,9 @@
 <template>
   <div>
-<button id="add">食品追加</button>
+  <div class="addeat">
+    <AddEat />
+  </div>
 <div class="noweat">
-  <p id="jtext">ジャンル</p>
-  <p id="etext">食べ物</p>
   <PullDown />
 </div>
 <p id="ttext">今日の食事</p>
@@ -14,11 +14,13 @@
 </template>
 
 <script>
+import axios from 'axios';
 import PullDown from './PullDown.vue';
 import TodayEat from './TodayEat.vue';
+import AddEat from './AddEat.vue';
 export default {
   name: 'ThePage1',
-  components:{PullDown,TodayEat,},
+  components:{PullDown,TodayEat,AddEat},
 
   data(){
     return{
@@ -36,6 +38,22 @@ export default {
           return 'test';
       }
     }
+  },
+  methods: {
+    add : function(){
+      const modal = document.getElementById('easyModal');
+      modal.style.display = 'block';
+    },
+    close : function(){
+      const modal = document.getElementById('easyModal');
+      modal.style.display = 'none';
+    },
+    aaaaaaaaaaaaaaa : async function(){
+        let url = process.env.VUE_APP_API_DEV + "/users/genres";
+        const API_TOKEN = sessionStorage.getItem('access_token');
+        let response = await axios.post(url, url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+        console.log(response.data);
+      }
   }
 }
 
@@ -56,11 +74,6 @@ body{
   margin-top:45vh;
   margin-left:20vw;
 } 
-#add{
-  position:absolute;
-  margin-top:3vh;
-  right:10vw;
-}
 .noweat{
   position:absolute;
   background-color: chocolate;
@@ -68,18 +81,6 @@ body{
   height:30vh;
   margin-top:7vh;
   margin-left:20vw;
-}
-#jtext{
-  position:absolute;
-  font-size:120%;
-  margin-top:5vh;
-  margin-left:3vw;
-}
-#etext{
-  position:absolute;
-  font-size:120%;
-  margin-top:18vh;
-  margin-left:3vw;
 }
 #ttext{
   position:absolute;

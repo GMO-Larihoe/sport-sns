@@ -15,7 +15,7 @@
 	</div>
 	<div id="E22">
 	<div class="cp_ipselect cp_sl05">
-        <select v-model="Fselected" name="food">
+        <select v-model="Fselected" name="food" v-on:change="output">
             <option value="" hidden>選択して下さい</option>
             <option v-for="food in foods" v-bind:value="food.name" v-bind:key="food.id">
             {{ food.name }}
@@ -24,20 +24,18 @@
     </div>
 	</div>
 	</div>
-	<div class="picture">
-		{{picture}}
-	</div>
+	<img v-bind:src="imgSrc" id="selectimg">
 	<div id="godai">
 		<div id="G11">〇炭水化物</div>
 		<div id="G12">〇脂質</div>
 		<div id="G13">〇タンパク質</div>
 		<div id="G14">〇ミネラル</div>
 		<div id="G15">〇ビタミン</div>
-		<div id="G21"><input type="number" id="tansui" size="10" min="0" max="2000"></div>
-		<div id="G22"><input type="number" id="sisitu" size="10" min="0" max="2000"></div>
-		<div id="G23"><input type="number" id="tanpaku" size="10" min="0" max="2000"></div>
-		<div id="G24"><input type="number" id="mineraru" size="10" min="0" max="2000"></div>
-		<div id="G25"><input type="number" id="bitamin" size="10" min="0" max="2000"></div>
+		<div id="G21">{{godai.carbohydrate}}</div>
+		<div id="G22">{{godai.lipid}}</div>
+		<div id="G23">{{godai.protein}}</div>
+		<div id="G24">{{godai.mineral}}</div>
+		<div id="G25">{{godai.vitamin}}</div>
 	</div>
 		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert">投稿</a>
 </div>
@@ -62,13 +60,22 @@
 						{ id: 2, name: 'おしるこ' },
 						{ id: 3, name: 'おにぎり' }
 				],
-				picture:'写真だよ',
+				// imgSrc:"",
+				img:"",
+				imgSrc:"./leftselect.png",
+				godai:[],
 			} 
 
 		},
 		mounted(){
 			this.getData();
 		},
+		// computed:{
+		// 	imgSrc(){
+		// 		console.log(this.allgenres.data[this.Gselected][0].img);
+		// 		return "data:image/png;base64,"+this.allgenres.data[this.Gselected][0].img;
+		// 	},
+		// },
 		methods:{
 			getData: async function(){
 				console.log(1);
@@ -82,7 +89,10 @@
 				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
 				console.log(response.data['日本食'][0].name);
 				this.allgenres=response;
-
+				// this.imgSrc=require("./leftselect.png");
+				if(this.Gselected=="" || this.Fselected!=""){
+					this.imgSrc=require("./leftselect.png");
+				}
 			},
 			insert: async function(){
 				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
@@ -104,6 +114,25 @@
 			output: function(e){
 				console.log(e.target.value);
 				this.foods=this.allgenres.data[this.Gselected];
+				console.log(this.allgenres.data[this.Gselected][0].img);
+				let nowfood;
+				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
+					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
+						nowfood=i;
+					}
+				}
+				if(this.Gselected!="" && this.Fselected!=""){
+					this.imgSrc="data:image/png;base64,"+this.allgenres.data[this.Gselected][nowfood].img;
+					this.godai={
+						carbohydrate:this.allgenres.data[this.Gselected][nowfood].carbohydrate,
+						lipid:this.allgenres.data[this.Gselected][nowfood].lipid,
+						protein:this.allgenres.data[this.Gselected][nowfood].protein,
+						mineral:this.allgenres.data[this.Gselected][nowfood].mineral,
+						vitamin:this.allgenres.data[this.Gselected][nowfood].vitamin
+					}
+				}else{
+					this.imgSrc=require("./leftselect.png");
+				}
 			}
 
 		}
@@ -117,6 +146,13 @@
     margin-top:5vh;
 	margin-left:30vw;
     background-color:red;
+}
+#selectimg{
+	position:absolute;
+    width:180px;
+    height:180px;
+    margin-top:3vh;
+	margin-left:30vw;
 }
 #eat{
     display:grid;

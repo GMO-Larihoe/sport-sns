@@ -2,16 +2,14 @@
 	<div>
     <div v-for="(today,index) in todays" v-bind:key="index">
     <div class="todayeat">
-	<div class="picture">
-		{{picture}}
-	</div>
+	<img v-bind:src="pictures[index]" class="picture">
 	<div id="eat">
     <div id="E11">ジャンル</div>
     <div id="E12">食べ物</div>
 	<div id="E21">：</div>
 	<div id="E22">：</div>
-	<div id="E31">{{today.name}}</div>
-	<div id="E32">{{food}}</div>
+	<div id="E31">{{today.genre_name}}</div>
+	<div id="E32">{{today.name}}</div>
 	</div>
 	<div id="godai">
 		<div id="G11">〇炭水化物</div>
@@ -19,11 +17,11 @@
 		<div id="G13">〇タンパク質</div>
 		<div id="G14">〇ミネラル</div>
 		<div id="G15">〇ビタミン</div>
-		<div id="G21">{{tans}}</div>
-		<div id="G22">{{si}}</div>
-		<div id="G23">{{tanp}}</div>
-		<div id="G24">{{mine}}</div>
-		<div id="G25">{{bita}}</div>
+		<div id="G21">{{today.carbohydrate}}</div>
+		<div id="G22">{{today.lipid}}</div>
+		<div id="G23">{{today.protein}}</div>
+		<div id="G24">{{today.mineral}}</div>
+		<div id="G25">{{today.vitamin}}</div>
 	</div>
     </div>
     </div>
@@ -46,7 +44,7 @@
 						{ id: 2, name: 'おしるこ' },
 						{ id: 3, name: 'おにぎり' }
 				],
-				picture:'写真だよ',
+				pictures:[],
 				todays:[],
 			} 
 
@@ -66,13 +64,11 @@
 				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
 				console.log(response.data[0].name);
 				this.todays=response.data;
-				// this.genre[i]=response.data[i].name;
-				// 	this.food[i]=response.data[i].genre_name;
-				// 	this.tans[i]=response.data[i].carbohydrate;
-				// 	this.si[i]=response.data[i].lipid;
-				// 	this.tanp[i]=response.data[i].protein;
-				// 	this.mine[i]=response.data[i].mineral;
-				// 	this.bita[i]=response.data[i].vitamin;
+
+				for(let i=0;i<3;i++){
+					console.log(this.todays[0].img)
+					this.pictures[i]="data:image/png;base64,"+this.todays[i].img;
+				}
 			},
 			output: function(e){
 				console.log(e.target.value);
@@ -108,11 +104,11 @@
 #eat{
     display:grid;
     grid-template-rows:50px 50px;
-    grid-template-columns:80px 20px 100px;
+    grid-template-columns:80px 20px 150px;
 	position:absolute;
     font-size:120%;
 	padding-top:8vh;
-	margin-left:22vw;
+	margin-left:20vw;
 }
 #E11 {
     grid-row: 1 / 2;
@@ -224,6 +220,5 @@
 	margin-left:5vw;
     width:10vw;
     height:20vh;
-    background-color:red;
 }
 </style>

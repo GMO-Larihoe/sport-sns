@@ -1,6 +1,8 @@
 <template>
   <div>
-  <a class="btn btn--yellow btn--cubic" v-on:click="add">食品追加</a>
+  <div class="addeat">
+    <AddEat />
+  </div>
 <div class="noweat">
   <PullDown />
 </div>
@@ -12,11 +14,13 @@
 </template>
 
 <script>
+import axios from 'axios';
 import PullDown from './PullDown.vue';
 import TodayEat from './TodayEat.vue';
+import AddEat from './AddEat.vue';
 export default {
   name: 'ThePage1',
-  components:{PullDown,TodayEat,},
+  components:{PullDown,TodayEat,AddEat},
 
   data(){
     return{
@@ -34,6 +38,22 @@ export default {
           return 'test';
       }
     }
+  },
+  methods: {
+    add : function(){
+      const modal = document.getElementById('easyModal');
+      modal.style.display = 'block';
+    },
+    close : function(){
+      const modal = document.getElementById('easyModal');
+      modal.style.display = 'none';
+    },
+    aaaaaaaaaaaaaaa : async function(){
+        let url = process.env.VUE_APP_API_DEV + "/users/genres";
+        const API_TOKEN = sessionStorage.getItem('access_token');
+        let response = await axios.post(url, url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+        console.log(response.data);
+      }
   }
 }
 
@@ -70,50 +90,5 @@ body{
   background-color:chartreuse;
   margin-top:40vh;
   margin-left:20vw;
-}
-*,
-*:before,
-*:after {
-  -webkit-box-sizing: inherit;
-  box-sizing: inherit;
-}
-
-.btn,
-a.btn,
-button.btn {
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 0.5;
-  position: relative;
-  display: inline-block;
-  padding: 1rem 4rem;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  color: #212529;
-  border-radius: 0.5rem;
-}
-
-a.btn--yellow {
-  position: absolute;
-  left:83.5vw;
-  top:1vh;
-  color: #000;
-  background-color: #fff100;
-  border-bottom: 5px solid #ccc100;
-}
-a.btn--yellow:hover {
-  margin-top: 3px;
-  color: #000;
-  background: #fff20a;
-  border-bottom: 2px solid #ccc100;
 }
 </style>

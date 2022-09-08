@@ -22,13 +22,8 @@
 </script>
 
 <style>
-  body{
-    margin:0;
-  }
-  .allpage{
-    /* position: absolute; */
-  }
   /* body{
     background-color:#b3b1af;
-  } */
+    margin:0;
+  } 
 </style>

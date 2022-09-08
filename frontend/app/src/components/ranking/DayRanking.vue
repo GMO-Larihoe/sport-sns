@@ -1,10 +1,12 @@
 <template>
+    <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
     <div class="rankingword">
        前日ランキング
 
     </div>
     <div class="wordframe">
         <TheWord />
+       
     </div>
 
 
@@ -46,6 +48,7 @@
         font-size:20px;
     }
     .wordframe{
+        font-family: "Kokoro";
         position:absolute;
         background-color:#ffffff;
         margin-left:10vw;

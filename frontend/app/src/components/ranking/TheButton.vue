@@ -1,27 +1,28 @@
 <template>
   <div class="meaple"> meaple </div>
 
+  
   <div id="wrap">
   <div class="btn_wrap">
-  <a href="#none" class="lazer"><span>入力</span></a>
+  <a href="/home/page1" class="lazer"><span>入力</span></a>
   </div>
   </div>
 
    <div id="wrap1">
   <div class="btn_wrap">
-  <a href="#none" class="lazer"><span>分析</span></a>
+  <a href="/home/page2" class="lazer"><span>分析</span></a>
   </div>
   </div> 
 
   <div id="wrap2">
   <div class="btn_wrap">
-  <a href="#none" class="lazer"><span>ランキング</span></a>
+  <a href="/home/page3" class="lazer"><span>ランキング</span></a>
   </div>
   </div> 
 
   <div id="wrap3">
   <div class="btn_wrap">
-  <a href="#none" class="lazer"><span>ログアウト</span></a>
+  <a href="/home/logout" class="lazer"><span>ログアウト</span></a>
   </div>
   </div> 
 

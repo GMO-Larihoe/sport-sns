@@ -23,6 +23,7 @@
 </template>
 
 <script>
+    import axios from 'axios'; 
     export default{
         data(){
             return {
@@ -63,6 +64,16 @@
                 ],
             }
         },
+        mounted(){
+            this.getRank();
+        },
+        methods: {
+            getRank: async function(){
+                let url = process.env.VUE_APP_API_DEV + '/users/rank';
+                const API_TOKEN = sessionStorage.getItem('access_token');
+                const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+            }
+        }
     }
 </script>
 

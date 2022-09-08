@@ -72,6 +72,7 @@
                 let url = process.env.VUE_APP_API_DEV + '/users/rank';
                 const API_TOKEN = sessionStorage.getItem('access_token');
                 const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+                console.log(res.data);
             }
         }
     }

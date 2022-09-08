@@ -62,11 +62,13 @@
 		},
 		methods:{
 			getData: async function(){
-				console.log(1);
-				const response = await axios.get(process.env.VUE_APP_API_DEV + "/authers");
-				console.log(response.data[0]);
-				//const response = await axios.post(process.env.VUE_APP_API_DEV + "/authers",JSONが入っている変数);
-				//parms
+				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				const API_TOKEN = sessionStorage.getItem('access_token');
+				let response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data);
+				for(let i=0;i<this.genre.length;i++){
+					this.genre[i]={id : i, name:""};
+				}
 			},
 			output: function(e){
 				console.log(e.target.value);
@@ -212,12 +214,12 @@
 }
 .picture{
     position:absolute;
-	margin-top:5vh;
-	margin-left:7vw;
+	width:10vw;
+    height:20vh;
+    margin-top:5vh;
+	margin-left:5vw;
     width:10vw;
     height:20vh;
-    padding-top:55px;
-	padding-left:45px;
     background-color:red;
 }
 </style>

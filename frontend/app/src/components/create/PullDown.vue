@@ -82,10 +82,11 @@
 				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
 				console.log(response.data['日本食'][0].name);
 				this.allgenres=response;
+
 			},
 			insert: async function(){
-				// let url = process.env.VUE_APP_API_DEV + "/users/food_post";
-				// const API_TOKEN = sessionStorage.getItem('access_token');
+				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				const API_TOKEN = sessionStorage.getItem('access_token');
 				let x=0;
 				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
 					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
@@ -96,8 +97,9 @@
 					"genre_id" : this.allgenres.data[this.Gselected][x].genre_id,
 					"food_id" : this.allgenres.data[this.Gselected][x].id,
 				}
-				// let response = await axios.post(url, { headers: { Authorization: "Bearer " + API_TOKEN } },genres);
 				console.log(genres.food_id);
+				let response = await axios.post(url, genres, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data);
 			},
 			output: function(e){
 				console.log(e.target.value);
@@ -110,12 +112,10 @@
 <style scoped>
 .picture{
     position:absolute;
-	margin-top:5vh;
-	margin-left:30vw;
     width:10vw;
     height:20vh;
-    padding-top:55px;
-	padding-left:45px;
+    margin-top:5vh;
+	margin-left:30vw;
     background-color:red;
 }
 #eat{

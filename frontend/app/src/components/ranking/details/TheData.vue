@@ -78,7 +78,6 @@
                 const API_TOKEN = sessionStorage.getItem('access_token');
                 const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
                 this.dataList=res.data;
-                console.log(res.data[0]["name"]);
             }
         }
     }

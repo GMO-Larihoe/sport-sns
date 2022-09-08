@@ -1,5 +1,6 @@
 <template>
     <div class="side">
+    <MeapleAicon />
     <TheButton />
     </div>
 </template>

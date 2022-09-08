@@ -1,19 +1,20 @@
 <template>
     <div class="rankingword">
-       前日ランキング
-
+       <div class="ranking"> 前日ランキング</div>
     </div>
+
+    <div class="border">
+    </div>
+
     <div class="wordframe">
         <TheWord />
-       
     </div>
-
-
 
     <div class="rankingframe"> 
         <!-- <TheNumber /> -->
         <TheData />
     </div>
+
      <!--   <frame />-->
      
     <div class="pagenumber">
@@ -41,29 +42,64 @@
 
 <style scoped>
     .rankingword{
-        text-align:center;
+        margin-left:27vw;
+        margin-top:5vh;
         /* margin-top:10vw;  */
-        padding-top: 2vw;
+        padding-top: 2vh;
         font-size:20px;
+         width:30vw;
+         height:2vh;
+         border-radius: 0%;
+        background-color:#ff9f04d5;
+        text-shadow:1px 0 0 white,0 1px 0 white,-1px 0 0 white,0 -1px 0 white;
+    }
+    .ranking{
+        margin-top:-2vh;
+         color:black; 
+        text-align:center;   
+    }
+
+    .border{
+        margin-left:5vh;
+        margin-top:5vh;
+        background-color:rgb(140, 137, 137);
+        height:0.1vh;
+        width:78vw;
+        
     }
     .wordframe{
+        /* border: 1px solid; */
+        /* border-bottom: transparent; */
+        
+        border-left:solid 1px gray;
+        border-right:solid 1px gray ; 
+         border-top:solid 1px gray;
         position:absolute;
-        background-color:#ffffff;
+        background-color:#d7d0d0;
         margin-left:10vw;
-        margin-top:5vh;
+        margin-top:6vh;
         width:65vw;
         height:3vh;
     }
     .rankingframe{
+        border-top:solid 1px gray;
+        border-left:solid 1px gray;
+        border-right:solid 1px gray;
+        border-bottom:solid 1px  gray;
+        /*dashed */
+        /* border: 1px solid; */
+        /* border-top: transparent; */
         position:absolute;
         overflow: auto;
-        background-color:#ffffff;
+
+        background-color:rgb(253, 248, 248);
         text-align:center;
         /* margin-left:25vw;*/
         margin-left:10vw;
         margin-top:9vh;
         width:65vw;
-        height:80vh;
+        height:70vh;
+
     } 
     .pagenumber{
         text-align:center;

@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <div v-for="n in 3" v-bind:key="n">
+    <div v-for="(today,index) in todays" v-bind:key="index">
     <div class="todayeat">
 	<div class="picture">
 		{{picture}}
@@ -10,7 +10,7 @@
     <div id="E12">食べ物</div>
 	<div id="E21">：</div>
 	<div id="E22">：</div>
-	<div id="E31">{{genre}}</div>
+	<div id="E31">{{today.name}}</div>
 	<div id="E32">{{food}}</div>
 	</div>
 	<div id="godai">
@@ -47,13 +47,7 @@
 						{ id: 3, name: 'おにぎり' }
 				],
 				picture:'写真だよ',
-                genre:'和食',
-                food:'煮魚',
-                tans:50,
-                si:50,
-                tanp:50,
-                mine:50,
-                bita:50,
+				todays:[],
 			} 
 
 		},
@@ -62,13 +56,23 @@
 		},
 		methods:{
 			getData: async function(){
-				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				let url = process.env.VUE_APP_API_DEV + "/users/genres";
 				const API_TOKEN = sessionStorage.getItem('access_token');
 				let response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
-				console.log(response.data);
-				for(let i=0;i<this.genre.length;i++){
-					this.genre[i]={id : i, name:""};
-				}
+				console.log(response.data[0].name);
+				this.genres=response.data;
+
+				url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data[0].name);
+				this.todays=response.data;
+				// this.genre[i]=response.data[i].name;
+				// 	this.food[i]=response.data[i].genre_name;
+				// 	this.tans[i]=response.data[i].carbohydrate;
+				// 	this.si[i]=response.data[i].lipid;
+				// 	this.tanp[i]=response.data[i].protein;
+				// 	this.mine[i]=response.data[i].mineral;
+				// 	this.bita[i]=response.data[i].vitamin;
 			},
 			output: function(e){
 				console.log(e.target.value);

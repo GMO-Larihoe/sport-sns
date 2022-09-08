@@ -38,7 +38,7 @@
 		<div id="G24">{{godai.mineral}}</div>
 		<div id="G25">{{godai.vitamin}}</div>
 	</div>
-		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert"  @click="execEmit">投稿</a>
+		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert">投稿</a>
 	</div>
 </div>
 </template>
@@ -151,8 +151,8 @@
     grid-template-rows:150px;
     grid-template-columns:400px 250px 300px 200px;
   position:absolute;
-  width:75vw;
-  height:25vh;
+  width:78vw;
+  height:30vh;
   margin-top:9vh;
   margin-left:20vw;
     background: #fff0cd;
@@ -182,7 +182,7 @@
 }
 #eat{
     display:grid;
-    grid-template-rows:60px 60px ;
+    grid-template-rows:60px 60px 15px;
     grid-template-columns:90px 200px;
 	position:absolute;
 	font-size:120%;
@@ -319,7 +319,6 @@ a.btn--yellow {
 a.btn--yellow2 {
   position: absolute;
   color: #000;
-  width: 50px;
   background-color: #fff100;
   border-bottom: 5px solid #ccc100;
   grid-row: 1 / 2;

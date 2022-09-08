@@ -169,17 +169,6 @@
     background: #fff20a;
     border-bottom: 2px solid #ccc100;
   }
-  a.btn--yellow2 {
-    color: #000;
-    background-color: #fff100;
-    border-bottom: 5px solid #ccc100;
-  }
-  a.btn--yellow2:hover {
-    margin-top: 3px;
-    color: #000;
-    background: #fff20a;
-    border-bottom: 2px solid #ccc100;
-  }
   
   .modal {
     display: none;

@@ -22,14 +22,23 @@
 
   <div id="wrap3">
   <div class="btn_wrap">
-  <a href="/home/logout" class="lazer"><span>ログアウト</span></a>
+  <a href="#" @click="linkClick" class="lazer"><span>ログアウト</span></a>
   </div>
   </div> 
 
 </template>
 <script scoped>
+  import router from '../../router/router.js'
 export default{
     // name:'Button',
+    methods: {
+      linkClick: function(){
+        console.log(1);
+        sessionStorage.clear();
+        router.push("/login")
+
+      }
+    }
 }
 </script>
 

@@ -111,7 +111,8 @@ def create_genre(
         db_food = models.foods.Food(db_genre.id, create_genre.food_name, img, create_genre.carbohydrate, create_genre.lipid, create_genre.protein, create_genre.mineral, create_genre.vitamin)
     db.add(db_food)
     db.commit()
-    return{"succsess"}
+    
+    return {"成功！！！！"}
 
 @router.post("/food_post")
 def create_post(

@@ -22,7 +22,7 @@
 </script>
 
 <style>
-  body{
-    margin:0;
-  }
+  /* body{
+    background-color:#b3b1af;
+  } 
 </style>

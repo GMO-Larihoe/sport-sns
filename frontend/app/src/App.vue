@@ -22,6 +22,9 @@
 </script>
 
 <style>
+  body{
+    margin:0;
+  }
   .allpage{
     /* position: absolute; */
   }

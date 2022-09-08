@@ -28,6 +28,7 @@ from starlette.status import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT
 
 
 router = APIRouter(
+    prefix="/api",
     tags=["auth"],
     dependencies=[],
     responses={404: {"description": "Not found"}},

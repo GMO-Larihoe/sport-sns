@@ -1,37 +1,48 @@
 <template>
-    <!-- <div class="login"> -->
-      <!-- メールアドレス -->
-      <!-- <div class="mail">
+    <!-- <div class="login"> 
+       メールアドレス 
+      <div class="mail">
         <input type="email" v-model="email" placeholder="メール">
-      </div> -->
+      </div>
   
-      <!-- パスワード -->
-      <!-- <div class="pass">
+       パスワード 
+      <div class="pass">
         <input type="password" v-model="password" placeholder="パスワード">
-      </div> -->
+      </div>
   
-      <!-- ログインボタン -->
-      <!-- <div class="button">
+       ログインボタン 
+      <div class="button">
         <button class="btn btn-primary" @click="login">ログイン</button>
-      </div> -->
+      </div>
   
-      <!-- 新規登録 -->
-      <!-- <div class="new">
+       新規登録 
+      <div class="new">
           <a href="/signup">新規登録</a>
       </div>
     </div>  -->
-    <div class="login">
-  <div class="login-triangle"></div>
+      <div class="login-page">
+  <div class="form">
   
-  <h2 class="login-header">Log in</h2>
 
-  <form class="login-container">
-    <p><input type="email" placeholder="Email"></p>
-    <p><input type="password" placeholder="Password"></p>
-    <p><input type="submit" value="Log in"></p>
-  </form>
-</div>
+    <!--新しく登録したところ-->
+    <div class="login">
+      <div class="mail">
+      <input type="email" v-model="email" placeholder="email"/>
+    </div>
+    
+    <div class="pass">
+      <input type="password" v-model="password" placeholder="password"/>
+    </div>
+    <div class="button">
+      <button class="btn btn-primary" @click="login">login</button>
+    </div>
 
+      <p class="message">Not registered? 
+        <a href="/signup" >Create an account</a>
+      </p>
+    </div>
+   </div>
+</div>  
   </template>
 
 <script>
@@ -68,103 +79,118 @@ export default {
             sessionStorage.setItem('access_token', response.data.access_token);
             router.push('/home')
         },
+
         newacount:function(){
           ('form').animate({height: "toggle", opacity: "toggle"}, "slow");
         },
-        
+//         $('.message a').click(function(){
+//    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+// });
+
+
+
     },
 }
 
  </script>
 
 <style scoped>
- @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+ @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-body {
-  background-color: #456;
-  font-family: 'Open Sans', sans-serif;
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
 }
-
-.login {
-  width: 400px;
-  margin: 16px auto;
-  font-size: 16px;
-}
-
-/* Reset top and bottom margins from certain elements */
-.login-header,
-.login p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* The triangle form is achieved by a CSS hack */
-.login-triangle {
-  width: 0;
-  margin-right: auto;
-  margin-left: auto;
-  border: 12px solid transparent;
-  border-bottom-color: #ff9f04d5;
-}
-
-.login-header {
-  background: #ff9f04d5;
-  padding: 20px;
-  font-size: 1.4em;
-  font-weight: normal;
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
   text-align: center;
-  text-transform: uppercase;
-  color: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-.login-container {
-  background: #ebebeb;
-  padding: 12px;
-}
-
-/* Every row inside .login-container is defined with p tags */
-.login p {
-  padding: 12px;
-}
-
-.login input {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  border-width: 1px;
-  border-style: solid;
-  padding: 16px;
+.form input {
+  font-family: "Roboto", sans-serif;
   outline: 0;
-  font-family: inherit;
-  font-size: 0.95em;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-
-.login input[type="email"],
-.login input[type="password"] {
-  background: #fff;
-  border-color: #bbb;
-  color: #555;
-}
-
-/* Text fields' focus effect */
-.login input[type="email"]:focus,
-.login input[type="password"]:focus {
-  border-color: #888;
-}
-
-.login input[type="submit"] {
-  background: #ff9f04d5;
-  border-color: transparent;
-  color: #fff;
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
   cursor: pointer;
 }
-
-.login input[type="submit"]:hover {
-  background: #ff9f04d5;
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
 }
-
-/* Buttons' focus effect */
-.login input[type="submit"]:focus {
-  border-color: #ff9f04d5;
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: rgb(141,194,111);
+  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
 }
 </style> 

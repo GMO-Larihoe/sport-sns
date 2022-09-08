@@ -10,34 +10,31 @@
           <span class="modalClose" v-on:click="close">×</span>
         </div>
         <div class="modal-body">
-          <div id="eat">
-          <div id="E11">ジャンル</div>
-          <div id="E12">食べ物</div>
+          <div id="E11">〇ジャンル</div>
+          <div id="E12">〇食べ物</div>
+          <div id="E13"><input type="file" id="uploadImage" /></div>
           <div id="E21"><input type="text" id="tansui" size="10" v-model="Wgenre"></div>
           <div id="E22"><input type="text" id="sisitu" size="10" v-model="Weat"></div>
-          </div>
-          <input type="file" id="uploadImage" />
-          <div id="godai">
-          <div id="G11">〇炭水化物</div>
-          <div id="G12">〇脂質</div>
-          <div id="G13">〇タンパク質</div>
-          <div id="G14">〇ミネラル</div>
-          <div id="G15">〇ビタミン</div>
-          <div id="G21"><input type="number" id="tansui" size="10" min="0" max="2000" v-model="Wtans"></div>
-          <div id="G22"><input type="number" id="sisitu" size="10" min="0" max="2000" v-model="Wsisi"></div>
-          <div id="G23"><input type="number" id="tanpaku" size="10" min="0" max="2000" v-model="Wtanp"></div>
-          <div id="G24"><input type="number" id="mineraru" size="10" min="0" max="2000" v-model="Wmine"></div>
-          <div id="G25"><input type="number" id="bitamin" size="10" min="0" max="2000" v-model="Wbita"></div>
-          </div>
-          <a class="btn btn--yellow2 btn--cubic" v-on:click="ok">追加！</a>
+          <div id="E23"></div>
+          <div id="E14">〇炭水化物</div>
+          <div id="E15">〇脂質</div>
+          <div id="E16">〇タンパク質</div>
+          <div id="E17">〇ミネラル</div>
+          <div id="E18">〇ビタミン</div>
+          <div id="E24"><input type="number" id="tansui" size="10" min="0" max="2000" v-model="Wtans"></div>
+          <div id="E25"><input type="number" id="sisitu" size="10" min="0" max="2000" v-model="Wsisi"></div>
+          <div id="E26"><input type="number" id="tanpaku" size="10" min="0" max="2000" v-model="Wtanp"></div>
+          <div id="E27"><input type="number" id="mineraru" size="10" min="0" max="2000" v-model="Wmine"></div>
+          <div id="E28"><input type="number" id="bitamin" size="10" min="0" max="2000" v-model="Wbita"></div>
+          <div id="E9"><a class="btn btn--yellow2 btn--cubic" v-on:click="ok">追加！</a></div>
         </div>
       </div>
     </div>
     </div>
   </template>
-  
   <script>
   import axios from 'axios';
+  import swal from 'sweetalert';
   export default {
     name: 'ThePage1',
   
@@ -72,6 +69,10 @@
         let response = await axios.post(url, this.anydata, { headers: { Authorization: "Bearer " + API_TOKEN } });
         console.log("aaa");
         console.log(response.data);
+        swal("登録完了！", "ジャンル:"+this.Wgenre+"　食べ物:"+this.Weat, "success")
+        .then( () =>  { 
+          this.close();
+        } ) ;
       },
       ok : async function(){
         
@@ -121,15 +122,6 @@
     width:75vw;
     height:30vh;
     margin-top:7vh;
-    margin-left:20vw;
-  }
-  #ttext{
-    position:absolute;
-    font-size:120%;
-    width:auto;
-    height:auto;
-    background-color:chartreuse;
-    margin-top:40vh;
     margin-left:20vw;
   }
   *,
@@ -203,7 +195,7 @@
   
   .modal-content {
     background-color: #f4f4f4;
-    margin: 10vh auto;
+    margin: 5vh auto;
     width: 40%;
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
     animation-name: modalopen;
@@ -220,7 +212,7 @@
   }
   
   .modal-header {
-    background: lightblue;
+    background: rgb(255, 223, 143);
     padding: 3px 15px;
     display: flex;
     justify-content: space-between;
@@ -239,101 +231,100 @@
   }
   
   .modal-body {
-    padding: 50px 200px;
     color: black;
     display:grid;
+    grid-template-rows:50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 25px;
+    grid-template-columns:20% 30% 30%;
+    background: -webkit-repeating-linear-gradient(-45deg, #f0f8ff, #f0f8ff 3px,#e9f4ff 3px, #e9f4ff 7px);
+    background: repeating-linear-gradient(-45deg, #f0f8ff, #f0f8ff 3px,#e9f4ff 3px, #e9f4ff 7px);
   }
-  
-  #eat{
-    display:grid;
-    grid-template-rows:60px 60px ;
-    grid-template-columns:80px 200px;
-      font-size:120%;
+  #E11{
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #E11 {
-      grid-row: 1 / 2;
-      grid-column: 1 / 2;
-      background: #f88;
-      padding-top:20%;
+  #E12{
+    grid-row:  3/ 4;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #E12 {
-      grid-row: 2 / 3;
-      grid-column: 1 / 2;
-      background: #8f8;
-      padding-top:20%;
+  #E13{
+    grid-row:  4 / 5 ;
+    grid-column: 2 / 4;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #E21 {
-      text-align: center;
-      grid-row: 1 / 2;
-      grid-column: 2 / 3;
-      background: #f88;
+  #E14{
+    grid-row:  5 / 6 ;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #E22 {
-      text-align: center;
-      grid-row: 2 / 3;
-      grid-column: 2 / 3;
-      background: #8f8;
+  #E15{
+    grid-row:  6 / 7 ;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  
-  #godai{
-    display:grid;
-    grid-template-rows:30px 30px 30px 30px 30px;
-    grid-template-columns:100px 100px;
+  #E16{
+    grid-row:  7 / 8 ;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #G11 {
-      grid-row: 1 / 2;
-      grid-column: 1 / 2;
-      background: #f88;
+  #E17{
+    grid-row:  8 / 9 ;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #G12 {
-      grid-row: 2 / 3;
-      grid-column: 1 / 2;
-      background: #8f8;
+  #E18{
+    grid-row:  9 / 10 ;
+    grid-column: 2 / 3;
+    background: #ffe6c3;
+    border-left: solid 6px #ffb700;
   }
-  #G13 {
-      grid-row: 3 / 4;
-      grid-column: 1 / 2;
-      background: #88f;
+  #E21{
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G14 {
-      grid-row: 4 / 5;
-      grid-column: 1 / 2;
-      background: #8f8;
+  #E22{
+    grid-row:  3/ 4;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G15 {
-      grid-row: 5 / 6;
-      grid-column: 1 / 2;
-      background: #f88;
+  #E24{
+    grid-row:  5 / 6 ;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G21 {
-      text-align: center;
-      grid-row: 1 / 2;
-      grid-column: 2 / 3;
-      background: #f88;
+  #E25{
+    grid-row:  6 / 7 ;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G22 {
-      text-align: center;
-      grid-row: 2 / 3;
-      grid-column: 2 / 3;
-      background: #8f8;
+  #E26{
+    grid-row:  7 / 8 ;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G23 {
-      text-align: center;
-      grid-row: 3 / 4;
-      grid-column: 2 / 3;
-      background: #88f;
+  #E27{
+    grid-row:  8 / 9 ;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G24 {
-      text-align: center;
-      grid-row: 4 / 5;
-      grid-column: 2 / 3;
-      background: #8f8;
+  #E28{
+    grid-row:  9 / 10 ;
+    grid-column: 3 / 4;
+    background: #ffe6c3;
   }
-  #G25 {
-      text-align: center;
-      grid-row: 5 / 6;
-      grid-column: 2 / 3;
-      background: #f88;
+  #E9{
+    grid-row:  11 / 12 ;
+    grid-column: 2 / 4;
+    margin:auto;
   }
   </style>
   

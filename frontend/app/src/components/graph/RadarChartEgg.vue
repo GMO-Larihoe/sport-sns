@@ -42,7 +42,12 @@ export default {
             borderWidth: 2
           }]
         },
-        options: {
+options: {
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
           scales: {
             yAxes: [{
               ticks: {

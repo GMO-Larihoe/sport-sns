@@ -61,6 +61,11 @@ export default {
           }]
         },
         options: {
+          plugins: {
+    legend: {
+      display: false,
+    },
+  },
           scales: {
             yAxes: [{
               ticks: {

@@ -46,6 +46,7 @@
                 おすすめの食品
             </div>
             <div class="footer">
+                <TweetEgg></TweetEgg> //
             <!-- ここ多分コンポーネントを三回分forで回す -->
             </div>
         </div>
@@ -72,6 +73,8 @@
 <script>
 import RadarChartEgg from './RadarChartEgg.vue'
 import ChartEgg from './ChartEgg.vue'
+import TweetEgg from './TweetEgg.vue' //
+
 
 export default {
     data() {
@@ -93,7 +96,8 @@ export default {
     },
     components: {
         RadarChartEgg,
-        ChartEgg
+        ChartEgg,
+        TweetEgg //
 },
 }
 
@@ -109,7 +113,6 @@ body{
     width:85%;
     background-color: red;  /* 今flameは縦が設定されてないので一次元(直線) */
     right:0%;
-    margin-top:-8px;
 }
 .today{
     position:absolute;
@@ -117,6 +120,11 @@ body{
     width:25%;
     height: 200px;
     left:0%;
+}
+.today #title{
+    position:absolute;
+    color:red;
+    left:20%;
 }
 #gurahu{
     position:absolute;
@@ -164,16 +172,16 @@ body{
     position:absolute;
     background-color: #FFF186;
     width:75%;
-    height:300px;
+    height:270px;
     left:0%;
-    top:380px;
+    top:410px;
 }
 .hikaku{
     position:absolute;
     background-color: purple;
     width:25%;
-    height:300px;
+    height:270px;
     left:75%;
-    top:380px;
+    top:410px;
 }
 </style>

@@ -11,9 +11,6 @@
 </script>
 
 <style>
-  .allpage{
-    position: absolute;
-  }
   /* body{
     background-color:#b3b1af;
   } */

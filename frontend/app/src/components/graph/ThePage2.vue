@@ -5,7 +5,7 @@
             レーダーチャート
             </div>
             <div id="radargurahu">
-                <RadarChartEgg></RadarChartEgg>
+                <RadarChartEgg ></RadarChartEgg>
             </div>
         </div>
         <div class="score">
@@ -13,7 +13,7 @@
                 スコア
             </div>
             <div id="scorecount">
-                <!-- ここにスコアを入れる -->
+                {{score}}
             </div>
         </div>
         <div class="eiyou">
@@ -72,29 +72,60 @@
 <script>
 import RadarChartEgg from './RadarChartEgg.vue'
 import ChartEgg from './ChartEgg.vue'
+import axios from 'axios';
 
 export default {
     data() {
         return {
             message: "Hello",
             items: [
-                    { name: "タンパク質", score: 81 },
+                    { name: "炭水化物", score: 81 },
                     { name: "脂質", score: 78 },
-                    { name: "野菜", score: 64 },
-                    { name: "ニンニク", score: 92 },
-                    { name: "マシマシ", score: 73 },
+                    { name: "タンパク質", score: 64 },
+                    { name: "ミネラル", score: 92 },
+                    { name: "ビタミン", score: 73 },
                 ],
             
             kabusokun: [
                     {name:"過剰",eiyou:"たんぱく"},
                     {name:"不足",eiyou:"脂質"},
-            ]
+            ],
+            score: 0
         };
+    },
+    mounted(){
+        this.getscore();
+        this.getalleiyou();
     },
     components: {
         RadarChartEgg,
         ChartEgg
-},
+    },
+    methods:{
+        getscore: async function(){
+            try {
+                let url = process.env.VUE_APP_API_DEV + '/users/score';
+                const API_TOKEN = sessionStorage.getItem('access_token');
+                const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+                //console.log(res.data["score"]);
+                this.score = res.data["score"];
+            } catch (error) {
+                this.score = 0;
+            }
+            
+        },
+        getalleiyou: async function(){
+            let url = process.env.VUE_APP_API_DEV + '/users/nutritions';
+            const API_TOKEN = sessionStorage.getItem('access_token');
+            const res = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+            //console.log(res.data["carbohydrate"]);
+            this.items[0]["score"] = res.data["carbohydrate"];
+            this.items[1]["score"] = res.data["lipid"];
+            this.items[2]["score"] = res.data["protein"];
+            this.items[3]["score"] = res.data["mineral"];
+            this.items[4]["score"] = res.data["vitamin"];
+        }
+    }
 }
 
 </script>

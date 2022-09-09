@@ -13,7 +13,7 @@
     <div class="food">
 		{{n.name}}
 	</div>
-    <!-- <div class="godai">
+    <div class="godai">
 		<p v-if="n.carbohydrate==null">未登録</p>
 		<p v-else>
 			〇炭水化物⇒{{n.carbohydrate}}<br>
@@ -22,8 +22,8 @@
 			〇ミネラル⇒{{n.mineral}}<br>
 			〇ビタミン⇒{{n.vitamin}}
 		</p>
-	</div> -->
-	<p v-if="n.carbohydrate==null">未登録</p>
+	</div>
+	<!-- <p v-if="n.carbohydrate==null">未登録</p>
 	<p v-else>
 	<div id="godai">
 			<div id="G11">〇炭水化物</div>
@@ -37,7 +37,7 @@
 			<div id="G24">{{n.mineral}}</div>
 			<div id="G25">{{n.vitamin}}</div>
 		</div>
-		</p>
+		</p> -->
 
     </div>
     </div>
@@ -139,13 +139,13 @@ this.pictures[i] = "data:image/png;base64,"+this.osusume[i].img;
 	margin-top:0vh;
 	margin-left:2vw;
 }
-/* .godai{
+.godai{
     position:absolute;
     font-size:120%;
 	margin-top:2vh;
 	margin-left:12vw;
-} */
-#godai{
+}
+/* #godai{
     display:grid;
     grid-template-rows:10px 30px 30px 30px 30px 30px 10px;
     grid-template-columns:10px 100px 100px 10px;
@@ -202,7 +202,7 @@ this.pictures[i] = "data:image/png;base64,"+this.osusume[i].img;
     grid-row: 6 / 7;
     grid-column: 3 / 4;
 	border-bottom: 1px solid #000;
-}
+} */
 .wrapper{
     display: -webkit-flex;
     display: -moz-flex;

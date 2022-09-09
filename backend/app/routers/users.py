@@ -122,7 +122,7 @@ def create_post(
 ):
     db_post = models.food_posts.FoodPost(current_user.id, create_post.genre_id, create_post.food_id, datetime.now(JST))
     now = date.today()
-    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.id == current_user.id, models.scores.Score.date == now)).first()
+    db_score = db.query(models.scores.Score).filter(and_(models.scores.Score.user_id == current_user.id, models.scores.Score.date == now)).first()
     db_food = db.query(models.foods.Food).filter(models.foods.Food.id == create_post.food_id).first()
     ave = (db_food.carbohydrate + db_food.lipid + db_food.protein + db_food.mineral +db_food.vitamin)/5
     if db_score:

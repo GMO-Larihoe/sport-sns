@@ -8,7 +8,7 @@ from typing import List, Any
 import random
 
 router = APIRouter(
-    prefix="/users",
+    prefix="/api/users",
     tags=["users"],
     responses={404: {"description": "Not found"}},
 )

@@ -3,13 +3,8 @@
   <div class="addeat">
     <AddEat />
   </div>
-<div class="noweat">
-  <PullDown />
-</div>
-<p id="ttext">今日の食事</p>
-<div class="today">
-<TodayEat />
-  </div>
+  <PullDown v-on:parent="text = $event"></PullDown>
+<TodayEat v-bind:child="text"></TodayEat>
   </div>
 </template>
 
@@ -24,6 +19,7 @@ export default {
 
   data(){
     return{
+      text : "",
     };
  
   },
@@ -64,31 +60,5 @@ export default {
 body{
         font-family:'Noto Sans JP',sans-serif;
         background-color:#f6f5f4;
-}
-.today{
-  position:absolute;
-  background-color:coral;
-  overflow: auto;
-  width:75vw;
-  height:50vh;
-  margin-top:45vh;
-  margin-left:20vw;
-} 
-.noweat{
-  position:absolute;
-  background-color: chocolate;
-  width:75vw;
-  height:30vh;
-  margin-top:7vh;
-  margin-left:20vw;
-}
-#ttext{
-  position:absolute;
-  font-size:120%;
-  width:auto;
-  height:auto;
-  background-color:chartreuse;
-  margin-top:40vh;
-  margin-left:20vw;
 }
 </style>

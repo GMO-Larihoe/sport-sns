@@ -1,6 +1,7 @@
 <template>
     <!-- <div class="login"> 
        メールアドレス 
+
       <div class="mail">
         <input type="email" v-model="email" placeholder="メール">
       </div>
@@ -43,12 +44,38 @@
     </div>
    </div>
 </div>  
+      <!-- ログインボタン -->
+      <div class="button mt-1">
+        <button class="btn btn-secondary" @click="login">ログイン</button>
+      </div>
+  
+      <!-- 新規登録 -->
+      <div class="new mt-1">
+          <a href="/signup">新規登録</a>
+      </div>
+    </div>
+
+<!--
+    <div class="login">
+  <div class="login-triangle"></div>
+  
+  <h2 class="login-header">Log in</h2>
+
+  <form class="login-container">
+    <p><input type="email" v-model="email" placeholder="Email"></p>
+    <p><input type="password" v-model="password" placeholder="Password"></p>
+    <p><button class="btn btn-primary" @click="login">ログイン</button></p>
+  </form>
+</div>
+-->
+
   </template>
 
 <script>
 
 import axios from 'axios'; 
 import router from './router/router.js'
+//import { useRouter } from "vue-router"
 export default {
     data() {
         return {
@@ -65,6 +92,7 @@ export default {
     },
     methods: {
         login: async function(){
+            console.log(this.password)
             const params = new URLSearchParams();
             params.append('username', this.email);    // 渡したいデータ分だけappendする
             params.append('password', this.password);
@@ -74,14 +102,19 @@ export default {
                 }
             };
             let url = process.env.VUE_APP_API_DEV + '/token';
-            const response = await axios.post(url, params, config);
-            console.log("response.data = ", response.data)
-            sessionStorage.setItem('access_token', response.data.access_token);
-            router.push('/home')
+
+            axios.post(url, params, config).then(res =>{
+              sessionStorage.setItem('access_token', res.data.access_token);
+              router.push('/')
+            });
         },
 
         newacount:function(){
           ('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+
+            
+            
+
         },
 //         $('.message a').click(function(){
 //    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");

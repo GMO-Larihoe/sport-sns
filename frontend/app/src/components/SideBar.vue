@@ -1,26 +1,37 @@
 <template>
-    <div class="side">
-    <MeapleAicon />
-    <TheButton />
-    </div>
+    <article>
+<div class="side">
+    <p>サイドバー</p>
+</div>
+
+<div class="content">
+    <p>メインコンテンツ</p>
+</div>
+</article>
+
 </template>
 
-<script setup>
-    import TheButton from './ranking/TheButton.vue';
-  </script>
-
 <style scoped>
+    body{
+        font-family:'Noto Sans JP',sans-serif;
+        background-color:#f6f5f4;
+    }
     .side{
-        position:absolute;
-        background-color:#ff9f04d5;
-        width:15vw;
-        margin-left:0;
-        padding:0;
-        height:100vh;
-        /*marginss-top:100px;*/
+        background-color:#ff838b;
+        width:100px;
+        height:300px;
         text-align:center;
-        border-right:solid 0.1vw rgb(24, 19, 19);
-        
-    }    
+    }
 
+    .coontent{
+        background-color:#b3d874;
+        width:250px;
+        height:300px;
+        text-align:center;
+        margin-left:10px;
+    }
+
+    article{
+        display:flex;
+    }
 </style>

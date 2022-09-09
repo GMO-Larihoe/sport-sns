@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from typing import List, Any
 
 router = APIRouter(
-    prefix="/authers",
+    prefix="/api/authers",
     tags=["authers"],
     responses={404: {"description": "Not found"}},
 )

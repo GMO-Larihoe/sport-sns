@@ -21,8 +21,9 @@
   }
 </script>
 
-<!-- <style>
-  /body{
+<style>
+  body{
     background-color:#b3b1af;
+    margin:0;
   } 
-</style> -->
+</style>

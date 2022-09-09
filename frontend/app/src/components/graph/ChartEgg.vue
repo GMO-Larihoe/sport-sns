@@ -37,8 +37,7 @@ return {
 methods: {
   getalleiyou: async function(){
 let url = process.env.VUE_APP_API_DEV + '/users/scores?start=2022-'+String(month[6])+'-'+String(day[6]+1)+'&end=2022-'+String(month[0])+'-'+String(day[0]+1);
-// /users/scores?start=2022-9-7&end2022-9-1
-//'/users/scores?start=2022-9-2&end=2022-9-8';動いた
+
             const API_TOKEN = sessionStorage.getItem('access_token');
 axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } }).then(res => {
 

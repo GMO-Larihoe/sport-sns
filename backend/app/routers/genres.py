@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Any
 
 router = APIRouter(
-    prefix="/genres",
+    prefix="/api/genres",
     tags=["genres"],
     responses={404: {"description": "Not found"}},
 )

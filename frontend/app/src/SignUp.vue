@@ -70,7 +70,7 @@ export default {
     },
     methods: {
         signup: async function(){
-            let url = process.env.VUE_APP_API_DEV + '/users';
+            let url = process.env.VUE_APP_API_DEV + '/provisional_signup';
             const response = await axios.post(url, {email: this.email, name: this.name, hashed_password: this.password});
             console.log("response.data = ", response.data)
             router.push('/login')

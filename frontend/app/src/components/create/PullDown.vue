@@ -1,5 +1,9 @@
 <template>
 	<div>
+	<div id="eat">
+	<div id="E11">ジャンル</div>
+	<div id="E12">食べ物</div>
+	<div id="E21">
 	<div class="cp_ipselect cp_sl05">
         <select v-model="Gselected" name="genre" v-on:change="output">
             <option value="" hidden>選択して下さい</option>
@@ -8,27 +12,32 @@
             </option>
         </select>
     </div>
+	</div>
+	<div id="E22">
 	<div class="cp_ipselect cp_sl05">
-        <select v-model="Fselected" name="food">
+        <select v-model="Fselected" name="food" v-on:change="output">
             <option value="" hidden>選択して下さい</option>
             <option v-for="food in foods" v-bind:value="food.name" v-bind:key="food.id">
             {{ food.name }}
             </option>
         </select>
     </div>
-	<div class="picture">
-		{{picture}}
 	</div>
-	<div class="godai">
-	〇炭水化物⇒⇒<input type="number" id="tansui" size="10" min="0" max="2000"><br>
-	〇脂質⇒⇒⇒⇒<input type="number" id="sisitu" size="10" min="0" max="2000"><br>
-	〇タンパク質⇒<input type="number" id="tanpaku" size="10" min="0" max="2000"><br>
-	〇ミネラル⇒⇒<input type="number" id="mineraru" size="10" min="0" max="2000"><br>
-	〇ビタミン⇒⇒<input type="number" id="bitamin" size="10" min="0" max="2000"><br>
 	</div>
-	<div class="touroku">
-		<a class="btn btn--yellow btn--cubic">登録</a>
+	<img v-bind:src="imgSrc" id="selectimg">
+	<div id="godai">
+		<div id="G11">〇炭水化物</div>
+		<div id="G12">〇脂質</div>
+		<div id="G13">〇タンパク質</div>
+		<div id="G14">〇ミネラル</div>
+		<div id="G15">〇ビタミン</div>
+		<div id="G21">{{godai.carbohydrate}}</div>
+		<div id="G22">{{godai.lipid}}</div>
+		<div id="G23">{{godai.protein}}</div>
+		<div id="G24">{{godai.mineral}}</div>
+		<div id="G25">{{godai.vitamin}}</div>
 	</div>
+		<a class="btn btn--yellow2 btn--cubic" v-on:click="insert">投稿</a>
 </div>
 </template>
 <script>
@@ -39,6 +48,7 @@
 		data(){
 			return {
 				Gselected: '',
+				allgenres:[],
 				genres: [
 						{ id: 1, name: '和食' },
 						{ id: 2, name: '洋食' },
@@ -50,46 +60,78 @@
 						{ id: 2, name: 'おしるこ' },
 						{ id: 3, name: 'おにぎり' }
 				],
-				picture:'写真だよ',
+				// imgSrc:"",
+				img:"",
+				imgSrc:"./leftselect.png",
+				godai:[],
 			} 
 
 		},
 		mounted(){
 			this.getData();
 		},
+		// computed:{
+		// 	imgSrc(){
+		// 		console.log(this.allgenres.data[this.Gselected][0].img);
+		// 		return "data:image/png;base64,"+this.allgenres.data[this.Gselected][0].img;
+		// 	},
+		// },
 		methods:{
 			getData: async function(){
 				console.log(1);
-				const response = await axios.get(process.env.VUE_APP_API_DEV + "/authers");
-				console.log(response.data[0]);
-				//const response = await axios.post(process.env.VUE_APP_API_DEV + "/authers",JSONが入っている変数);
-				//parms
-			},
+				let url = process.env.VUE_APP_API_DEV + "/users/genres";
+				const API_TOKEN = sessionStorage.getItem('access_token');
+				let response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data[0].name);
+				this.genres=response.data;
 
+				url = process.env.VUE_APP_API_DEV + "/users/genres_food";
+				response = await axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data['日本食'][0].name);
+				this.allgenres=response;
+				// this.imgSrc=require("./leftselect.png");
+				if(this.Gselected=="" || this.Fselected!=""){
+					this.imgSrc=require("./leftselect.png");
+				}
+			},
+			insert: async function(){
+				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
+				const API_TOKEN = sessionStorage.getItem('access_token');
+				let x=0;
+				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
+					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
+						x=i;
+					}
+				}
+				let genres = {
+					"genre_id" : this.allgenres.data[this.Gselected][x].genre_id,
+					"food_id" : this.allgenres.data[this.Gselected][x].id,
+				}
+				console.log(genres.food_id);
+				let response = await axios.post(url, genres, { headers: { Authorization: "Bearer " + API_TOKEN } });
+				console.log(response.data);
+			},
 			output: function(e){
 				console.log(e.target.value);
-				switch(this.Gselected){
-					case "和食":
-						this.foods=[
-						{ id: 1, name: '煮魚' },
-						{ id: 2, name: 'おしるこ' },
-						{ id: 3, name: 'おにぎり' }
-						];
-					return;
-					case "洋食":
-						this.foods=[
-						{ id: 1, name: 'ハンバーグ' },
-						{ id: 2, name: 'ステーキ' },
-						{ id: 3, name: 'パスタ' }
-						]
-					return;
-					case "中華":
-						this.foods=[
-						{ id: 1, name: 'エビチリ' },
-						{ id: 2, name: '麻婆豆腐' },
-						{ id: 3, name: '杏仁豆腐' }
-						]
-					return;
+				this.foods=this.allgenres.data[this.Gselected];
+				console.log(this.allgenres.data[this.Gselected][0].img);
+				let nowfood;
+				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
+					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
+						nowfood=i;
+					}
+				}
+				if(this.Gselected!="" && this.Fselected!=""){
+					this.imgSrc="data:image/png;base64,"+this.allgenres.data[this.Gselected][nowfood].img;
+					this.godai={
+						carbohydrate:this.allgenres.data[this.Gselected][nowfood].carbohydrate,
+						lipid:this.allgenres.data[this.Gselected][nowfood].lipid,
+						protein:this.allgenres.data[this.Gselected][nowfood].protein,
+						mineral:this.allgenres.data[this.Gselected][nowfood].mineral,
+						vitamin:this.allgenres.data[this.Gselected][nowfood].vitamin
+					}
+				}else{
+					this.imgSrc=require("./leftselect.png");
 				}
 			}
 
@@ -98,14 +140,116 @@
 </script>
 <style scoped>
 .picture{
-	position: absolute;
-	margin-top:-10vh;
-	margin-left:35vw;
+    position:absolute;
+    width:10vw;
+    height:20vh;
+    margin-top:5vh;
+	margin-left:30vw;
+    background-color:red;
 }
-.godai{
-	width:20vw;
-	margin-left:50vw;
-	margin-top:-16vh;
+#selectimg{
+	position:absolute;
+    width:180px;
+    height:180px;
+    margin-top:3vh;
+	margin-left:30vw;
+}
+#eat{
+    display:grid;
+    grid-template-rows:60px 60px ;
+    grid-template-columns:80px 200px;
+	position:absolute;
+	font-size:120%;
+    width:20vw;
+	margin-left:5vw;
+	margin-top:6vh;
+}
+#E11 {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    background: #f88;
+	padding-top:20%;
+}
+#E12 {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    background: #8f8;
+	padding-top:20%;
+}
+#E21 {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    background: #f88;
+}
+#E22 {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    background: #8f8;
+}
+
+#godai{
+    display:grid;
+    grid-template-rows:30px 30px 30px 30px 30px;
+    grid-template-columns:100px 100px;
+	position:absolute;
+    width:20vw;
+	margin-left:45vw;
+	margin-top:4vh;
+}
+#G11 {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    background: #f88;
+}
+#G12 {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    background: #8f8;
+}
+#G13 {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    background: #88f;
+}
+#G14 {
+    grid-row: 4 / 5;
+    grid-column: 1 / 2;
+    background: #8f8;
+}
+#G15 {
+    grid-row: 5 / 6;
+    grid-column: 1 / 2;
+    background: #f88;
+}
+#G21 {
+	text-align: center;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    background: #f88;
+}
+#G22 {
+	text-align: center;
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    background: #8f8;
+}
+#G23 {
+	text-align: center;
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+    background: #88f;
+}
+#G24 {
+	text-align: center;
+    grid-row: 4 / 5;
+    grid-column: 2 / 3;
+    background: #8f8;
+}
+#G25 {
+	text-align: center;
+    grid-row: 5 / 6;
+    grid-column: 2 / 3;
+    background: #f88;
 }
 *,
 *:before,
@@ -139,30 +283,39 @@ button.btn {
 }
 
 a.btn--yellow {
-  left:55vw;
-  top:1vh;
+  position: absolute;
+  left:63vw;
+  top:5vh;
   color: #000;
   background-color: #fff100;
   border-bottom: 5px solid #ccc100;
 }
-
+a.btn--yellow2 {
+  position: absolute;
+  left:63vw;
+  top:18vh;
+  color: #000;
+  background-color: #fff100;
+  border-bottom: 5px solid #ccc100;
+}
+a.btn--yellow2:hover {
+  margin-top: 3px;
+  color: #000;
+  background: #fff20a;
+  border-bottom: 2px solid #ccc100;
+}
 a.btn--yellow:hover {
   margin-top: 3px;
   color: #000;
   background: #fff20a;
   border-bottom: 2px solid #ccc100;
 }
-.ex{
-	position:absolute;
-	background-color:#da3c41;
-	width:30vw;
-	height:30vh;
-}
+
 .cp_ipselect {
 	overflow: hidden;
-	width: 20%;
-	margin-left: 12vw;
-	margin-top:6vh;
+	width: 80%;
+	left:10%;
+	top:20%;
 }
 .cp_ipselect select {
 	width: 100%;

@@ -1,5 +1,4 @@
 <template>
-
     <div class="side">
     <TheButton />
     </div>
@@ -22,6 +21,5 @@
         border-right:solid 0.1vw rgb(24, 19, 19);
         
     }    
-
 
 </style>

@@ -61,7 +61,6 @@ axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } }).then(res =
           labels: ["炭水化物", "脂質", "たんぱく質", "ミネラル", "ビタミン"],
           datasets: [{
             label: '得票数',
-            // data: [12, 19, 3, 5, 2],
             data: [this.x1, this.x2, this.x3, this.x4, this.x5],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',

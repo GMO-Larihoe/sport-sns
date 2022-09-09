@@ -37,11 +37,11 @@ return {
 methods: {
   getalleiyou: async function(){
 let url = process.env.VUE_APP_API_DEV + '/users/scores?start=2022-'+String(month[6])+'-'+String(day[6]+1)+'&end=2022-'+String(month[0])+'-'+String(day[0]+1);
-// /users/scores?start=2022-9-7&end2022-9-1
-//'/users/scores?start=2022-9-2&end=2022-9-8';動いた
+
             const API_TOKEN = sessionStorage.getItem('access_token');
 axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } }).then(res => {
 
+// -------------------------
 var rail = [];
 
 console.log(res.data.length);
@@ -51,7 +51,7 @@ let total = found.reduce(function (sum, element) { return sum + element; }, 0);
 console.log(total);//2039
 for (let j = 0; j < 7; j++) {
 if (total == 2022 + month[j] + day[j] + 1) {
-rail[j] = res.data[0]["score"];
+rail[j] = res.data[p]["score"];
 switch (j) {
 case 0:
 this.x1 = rail[j]
@@ -79,7 +79,7 @@ console.log("成功")
 }
 }
 }
-
+// -------------------------
 // this.x1 = res.data[0]["score"];
 // this.x2 = res.data[0]["score"];
 // this.x3 = res.data[0]["score"];
@@ -98,13 +98,13 @@ let ctx = document.getElementById("chart");
         type: 'line',
         data:{
             labels: [
-            month[6] + "/" + day[6],
-            month[5] + "/" + day[5],
-            month[4] + "/" + day[4],
-            month[3] + "/" + day[3],
-            month[2] + "/" + day[2],
-            month[1] + "/" + day[1],
-            month[0] + "/" + day[0]
+            month[6] + "/" + day[6]+1,
+            month[5] + "/" + day[5]+1,
+            month[4] + "/" + day[4]+1,
+            month[3] + "/" + day[3]+1,
+            month[2] + "/" + day[2]+1,
+            month[1] + "/" + day[1]+1,
+            month[0] + "/" + day[0]+1
             ],
             
           datasets: [{

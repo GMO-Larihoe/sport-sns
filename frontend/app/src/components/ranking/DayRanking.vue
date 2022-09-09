@@ -48,14 +48,13 @@
         padding-top: 2vh;
         font-size:20px;
          width:30vw;
-         height:2vh;
+         height:4vh;
          border-radius: 0%;
         background-color:#ff9f04d5;
-        text-shadow:1px 0 0 white,0 1px 0 white,-1px 0 0 white,0 -1px 0 white;
     }
     .ranking{
         margin-top:-2vh;
-         color:black; 
+         color:white; 
         text-align:center;   
     }
 
@@ -75,7 +74,7 @@
         border-right:solid 1px gray ; 
          border-top:solid 1px gray;
         position:absolute;
-        background-color:#d7d0d0;
+        background-color:#ffe4a9d5;
         margin-left:10vw;
         margin-top:6vh;
         width:65vw;

@@ -16,7 +16,7 @@
     
 .content{
     position: absolute;
-    background-color:#fff1b6;
+    background-color:#faf4de;
     width:85vw;
     height:100vh;
 margin-left: 15vw;

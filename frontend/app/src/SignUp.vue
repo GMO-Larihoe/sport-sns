@@ -152,7 +152,7 @@ export default {
    font-family: "Roboto", sans-serif;
    text-transform: uppercase;
    outline: 0;
-   background: #4CAF50;
+   background: #ff9f04d5;
    width: 100%;
    border: 0;
    padding: 15px;
@@ -164,7 +164,7 @@ export default {
  }
  
  .form button:hover,.form button:active,.form button:focus {
-   background: #43A047;
+   background: #eec480d5;
  }
 
  
@@ -176,7 +176,7 @@ export default {
 
  
  .form .message a {
-   color: #4CAF50;
+   color: #ff9f04d5;
    text-decoration: none;
  }
 

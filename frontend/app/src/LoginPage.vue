@@ -1,6 +1,8 @@
 <template>
     <!--新しく登録したところ-->
       <div class="login-page">
+
+        <img src="./components/meaple5.png" id="meapleimg">
         <div class="form">
   
           <div class="login">
@@ -103,6 +105,15 @@ export default {
   padding: 8% 0 0;
   margin: auto;
   }
+
+#meapleimg{
+  margin-left:-12vw;
+margin-top:-10vh;
+width:200%;
+height:200%;
+background-color:#fff6ec;
+}
+
   .form {
 
   position: relative;
@@ -110,6 +121,7 @@ export default {
   background: #FFFFFF;
   max-width: 360px;
   margin: 0 auto 100px;
+  margin-top:10vh;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -133,7 +145,7 @@ export default {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: #ff9f04d5;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -145,7 +157,7 @@ export default {
 
   }
   .form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+  background: #eec480d5;
   }
   .form .message {
   margin: 15px 0 0;
@@ -153,7 +165,7 @@ export default {
   font-size: 12px;
   }
   .form .message a {
-  color: #4CAF50;
+  color: #ff9f04d5;
   text-decoration: none;
   }
   .form .register-form {

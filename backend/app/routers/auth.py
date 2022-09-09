@@ -38,7 +38,7 @@ def _create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 
 router = APIRouter(
-    #prefix="/api",
+    prefix="/api",
     tags=["auth"],
     dependencies=[],
     responses={404: {"description": "Not found"}},

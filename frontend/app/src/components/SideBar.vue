@@ -1,6 +1,7 @@
 <template>
     <div class="side">
-    <MeapleAicon />
+    <img src="./meaple8.png" id="meapleimg">
+
     <TheButton />
     </div>
 </template>
@@ -10,9 +11,18 @@
   </script>
 
 <style scoped>
+    #meapleimg{
+        margin-left:0;
+        margin-top:5vh;
+        width:80%;
+        height:20%;
+
+        background-color:#fff6ec;
+    }
+
     .side{
         position:absolute;
-        background-color:#ff9f04d5;
+        background-color:#FF9F04;
         width:15vw;
         margin-left:0;
         padding:0;

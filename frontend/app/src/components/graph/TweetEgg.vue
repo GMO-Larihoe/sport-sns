@@ -9,14 +9,14 @@
 		ジャンル：{{genre}}
 	</div> -->
     <div class="food">
-		食べ物:{{n.name}}
+		{{n.name}}
 	</div>
     <div class="godai">
-		〇炭水化物⇒⇒{{n.carbohydrate}}<br>
-        〇脂質⇒⇒⇒⇒{{n.lipid}}<br>
+		〇炭水化物⇒{{n.carbohydrate}}<br>
+        〇脂質⇒{{n.lipid}}<br>
         〇タンパク質⇒{{n.protein}}<br>
-        〇ミネラル⇒⇒{{n.mineral}}<br>
-        〇ビタミン⇒⇒{{n.vitamin}}
+        〇ミネラル⇒{{n.mineral}}<br>
+        〇ビタミン⇒{{n.vitamin}}
 	</div>
     </div>
     </div>
@@ -100,10 +100,10 @@ this.pictures[i] = "data:image/png;base64,"+this.osusume[i].img;
 }
 .picture{
     position:absolute;
-	margin-top:2vh;
-	margin-left:1vw;
-    width:100px;
-    height:100px;
+	margin-top:5vh;
+	margin-left:0vw;
+    width:120px;
+    height:120px;
     text-align: center;
     /* background-color:red; */
 }
@@ -116,8 +116,8 @@ this.pictures[i] = "data:image/png;base64,"+this.osusume[i].img;
 .food{
     position:absolute;
     font-size:120%;
-	margin-top:15vh;
-	margin-left:20vw;
+	margin-top:0vh;
+	margin-left:2vw;
 }
 .godai{
     position:absolute;

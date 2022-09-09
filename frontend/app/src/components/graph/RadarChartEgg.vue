@@ -1,6 +1,6 @@
 <template>
   <!-- <div style="position:absolute;top:10; left:10; z-index: 100; "> -->
-  <div style="position:relative;width:200px;height:200px;z-index: 9999; left:10%;">
+  <div style="position:absolute;width:230px;height:230px;z-index: 9999;left:10%;">
     <canvas id="chartchart"></canvas>
   </div>
 </template>
@@ -58,7 +58,7 @@ axios.get(url, { headers: { Authorization: "Bearer " + API_TOKEN } }).then(res =
       new Chart(ctx, {
         type: 'radar',
         data:{
-          labels: ["た", "脂質", "黄色", "緑", "紫"],
+          labels: ["炭水化物", "脂質", "たんぱく質", "ミネラル", "ビタミン"],
           datasets: [{
             label: '得票数',
             // data: [12, 19, 3, 5, 2],

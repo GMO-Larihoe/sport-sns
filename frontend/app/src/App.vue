@@ -23,7 +23,7 @@
 
 <style>
   body{
-    background-color:#b3b1af;
+    background-color:#fff6ec;
     margin:0;
   } 
 </style>

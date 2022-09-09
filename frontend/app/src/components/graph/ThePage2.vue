@@ -71,8 +71,8 @@ import ChartEgg from './ChartEgg.vue'
 import TweetEgg from './TweetEgg.vue' //
 import axios from 'axios';
 
-var kajou = "タンパク質"
-var husoku = "脂質"
+var kajou = "未登録"
+var husoku = "未登録"
 
 var socores = [];
 
@@ -81,11 +81,11 @@ export default {
         return {
             message: "Hello",
             items: [
-                    { name: "炭水化物", score: 81 },
-                    { name: "脂質", score: 78 },
-                    { name: "タンパク質", score: 64 },
-                    { name: "ミネラル", score: 92 },
-                    { name: "ビタミン", score: 73 },
+                    { name: "炭水化物", score: "未登録" },
+                    { name: "脂質", score: "未登録" },
+                    { name: "タンパク質", score: "未登録" },
+                    { name: "ミネラル", score: "未登録" },
+                    { name: "ビタミン", score: "未登録" },
                 ],
             
             kabusokun: [

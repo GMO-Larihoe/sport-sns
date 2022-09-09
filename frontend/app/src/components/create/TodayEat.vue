@@ -135,7 +135,7 @@
   border-radius: 25px 0px 0px 25px;/*左側の角を丸く*/
   margin-left:21vw;
   margin-top:49vh;
-  z-index: 100;
+  z-index: 1;
 }
 #eat{
     display:grid;

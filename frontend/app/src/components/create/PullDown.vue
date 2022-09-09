@@ -6,7 +6,7 @@
 	<div id="E12">食べ物</div>
 	<div id="E21">
 	<div class="cp_ipselect cp_sl05">
-        <select v-model="Gselected" name="genre" v-on:change="output">
+        <select v-model="Gselected" name="genre" v-on:change="Goutput">
             <option value="" hidden>選択して下さい</option>
             <option v-for="genre in genres" v-bind:value="genre.name" v-bind:key="genre.id">
                 {{ genre.name }}
@@ -16,7 +16,7 @@
 	</div>
 	<div id="E22">
 	<div class="cp_ipselect cp_sl05">
-        <select v-model="Fselected" name="food" v-on:change="output">
+        <select v-model="Fselected" name="food" v-on:change="Foutput">
             <option value="" hidden>選択して下さい</option>
             <option v-for="food in foods" v-bind:value="food.name" v-bind:key="food.id">
             {{ food.name }}
@@ -44,6 +44,7 @@
 </template>
 <script>
 	import axios from 'axios';
+	import swal from 'sweetalert';
 	export default{
 		
 		name:'PullDown',
@@ -59,9 +60,7 @@
 				],
 				Fselected: '',
 				foods: [
-						{ id: 1, name: '煮魚' },
-						{ id: 2, name: 'おしるこ' },
-						{ id: 3, name: 'おにぎり' }
+						{ id: 1, name: 'ジャンルを選択してください' },
 				],
 				// imgSrc:"",
 				img:"",
@@ -98,6 +97,7 @@
 				}
 			},
 			insert: async function(){
+				try{
 				let url = process.env.VUE_APP_API_DEV + "/users/food_post";
 				const API_TOKEN = sessionStorage.getItem('access_token');
 				let x=0;
@@ -111,23 +111,33 @@
 					"food_id" : this.allgenres.data[this.Gselected][x].id,
 				}
 				//this.$emit('parent', this.allgenres.data[this.Gselected][x]);
-				console.log(genres.food_id);
+				console.log(this.allgenres.data);
 				let response = await axios.post(url, genres, { headers: { Authorization: "Bearer " + API_TOKEN } });
 				console.log(response.data);
-				// window.setTimeout(function(){
-				location.reload();
-				// },2000);
+				swal("登録完了！", "ジャンル:"+this.Gselected+"　食べ物:"+this.allgenres.data[this.Gselected][x].name, "success")
+				.then( () =>  { 
+					location.reload();
+				} ) ;
+				}catch(error){
+					swal("登録失敗", "ジャンルと食べ物を選択して投稿してください", "error")
+				}
 			},
-			output: function(e){
+			Goutput: function(e){
 				console.log(e.target.value);
 				this.foods=this.allgenres.data[this.Gselected];
-				console.log(this.allgenres.data[this.Gselected][0].img);
+				console.log(this.foods);
 				let nowfood;
-				for(let i=0;i<this.allgenres.data[this.Gselected].length;i++){
-					if(this.allgenres.data[this.Gselected][i].name==this.Fselected){
+				if(this.Gselected != ""){
+					this.Fselected = this.foods[0].name;
+					console.log("food selected"+this.Fselected);
+				}
+
+				for(let i=0;i<this.foods.length;i++){
+					if(this.foods[i].name==this.Fselected){
 						nowfood=i;
 					}
 				}
+
 				if(this.Gselected!="" && this.Fselected!=""){
 					this.imgSrc="data:image/png;base64,"+this.allgenres.data[this.Gselected][nowfood].img;
 					this.godai={
@@ -140,6 +150,35 @@
 				}else{
 					this.imgSrc=require("./leftselect.png");
 				}
+				console.log(this.allgenres.data[this.Gselected][nowfood].name);
+				// this.Fselected=this.allgenres.data[this.Gselected][nowfood].name;
+			},
+			Foutput: function(e){
+				console.log(e.target.value);
+				this.foods=this.allgenres.data[this.Gselected];
+				console.log(this.foods);
+				let nowfood;
+
+				for(let i=0;i<this.foods.length;i++){
+					if(this.foods[i].name==this.Fselected){
+						nowfood=i;
+					}
+				}
+
+				if(this.Gselected!="" && this.Fselected!=""){
+					this.imgSrc="data:image/png;base64,"+this.allgenres.data[this.Gselected][nowfood].img;
+					this.godai={
+						carbohydrate:this.allgenres.data[this.Gselected][nowfood].carbohydrate,
+						lipid:this.allgenres.data[this.Gselected][nowfood].lipid,
+						protein:this.allgenres.data[this.Gselected][nowfood].protein,
+						mineral:this.allgenres.data[this.Gselected][nowfood].mineral,
+						vitamin:this.allgenres.data[this.Gselected][nowfood].vitamin
+					}
+				}else{
+					this.imgSrc=require("./leftselect.png");
+				}
+				console.log(this.allgenres.data[this.Gselected][nowfood].name);
+				// this.Fselected=this.allgenres.data[this.Gselected][nowfood].name;
 			}
 
 		}

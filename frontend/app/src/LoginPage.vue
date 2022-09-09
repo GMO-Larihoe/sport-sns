@@ -83,7 +83,7 @@ export default {
  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
 body {
-  background-color: #456;
+  background-color: rgb(255, 238, 205);
   font-family: 'Open Sans', sans-serif;
 }
 

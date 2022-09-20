@@ -71,7 +71,7 @@
         console.log(response.data);
         swal("登録完了！", "ジャンル:"+this.Wgenre+"　食べ物:"+this.Weat, "success")
         .then( () =>  { 
-          this.close();
+          location.reload();
         } ) ;
       },
       ok : async function(){

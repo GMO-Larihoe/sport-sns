@@ -17,3 +17,5 @@ RUN yarn global add @vue/cli @vue/cli-init
 
 # vueサーバーの起動(vueアプリを作成した後、有効化する)。コンテナが起動してから30秒後くらいに起動。
 #CMD yarn serve
+
+#起動時にdocerを起動するかどうか決めるのはdocker-compose.yamlファイルのrestart:alwaysで決める
